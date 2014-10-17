@@ -1,0 +1,23 @@
+[tip]鼠标坐标：可先在windows下使用按键精灵录制脚本，获得鼠标坐标，然后编写linux下脚本；
+
+导入联系人：
+		AVD窗口放到左上角时，坐标如下：
+			0,0	屏幕左上角
+			1279,1023	屏幕右下角
+			295,493	OK	click
+			125,505	contactor	click
+			187,392	import contactor	click
+			190,363	import from storage	click
+			504,271	HOME	click
+			
+		第二次录制，锁屏情况下解屏：
+			0,0	屏幕左上角
+			1279,1023	屏幕右下角		
+			190,403	锁down  拖拽
+			295,405	锁up			
+			125,502	联系人	click			
+			188,395	导入联系人	click
+			190,364	import from storage	click
+			502,269	HOME
+
+启动新浪微博：

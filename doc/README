@@ -1,0 +1,43 @@
+【任务】：
+	在android模拟器上运行新浪微博apk，导入通讯录，查看各个手机号码对应到新浪微博帐号；
+	
+【工作流】：
+	准备工作：
+		1 根据手机号码生成 *.vcf文件
+			(多个vcf文件可以合成一个vcf，每个联系人用空行分割)
+		2 安装android模拟器，并下载API Level xx及其相应到platforms/CPU emulator
+		3 使用mksdcard命令，生成sdcard.img
+		4 启动模拟器
+		5 安装微博apk
+		6 安装xdotool；（安装“按键精灵”）		
+	录制脚本：	
+		1. 将部分vcf文件导入到sdcard.img
+		2. 从sdcard导入*.vcf到手机通讯录
+		3. 启动微博，导入通讯录好友	
+		4. 记录好友微博昵称
+		
+
+【目录说明】：
+	src：java源码
+	python: python源码
+	shell：shell源码
+	doc：开发文档
+	data：原始数据
+	vcard：原始数据转换格式后的vcf格式
+	log：记录中间状态的临时文档
+	reference：参考资料
+	
+		
+【详细步骤】：
+	1。cmd进入tools目录输入mksdcard -l sdcard 200M ~/sdcard.img 
+	2. AVD manager中创建模拟器，选择此sdcard.img
+	3. 启动模拟器
+	4. 从sdcard导入联系人
+		$cd /home/bigbug/local/adt-bundle-linux-x86_64-20140702/sdk/platform-tools
+		$./adb push  ~/workspace/AndroidClick/vcard/xxx.vcf  /sdcard/
+	5. 安装微博apk
+		adb install com.sina.weibo4.5.5_liqucn.com.apk
+	
+	
+	
+	
