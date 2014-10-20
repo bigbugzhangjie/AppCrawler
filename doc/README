@@ -24,20 +24,36 @@
 	doc：开发文档
 	data：原始数据
 	vcard：原始数据转换格式后的vcf格式
-	log：记录中间状态的临时文档
+	log：记录中间状态的临时文档,
 	reference：参考资料
 	
 		
 【详细步骤】：
-	1。cmd进入tools目录输入mksdcard -l sdcard 200M ~/sdcard.img 
+	0. 生成标准格式到VCard文件，并分片：
+		java VCardFileGenerator xxx/data/phone.txt yyy/vcard/contacts.vcf
+		java FileTools.split(sourceFile, targetDir, 1000) 
+	1. mksdcard: cmd进入tools目录,使用mksdcard: 
+		/tools>mksdcard -l sdcard 100M ~/sdcard.img 
 	2. AVD manager中创建模拟器，选择此sdcard.img
-	3. 启动模拟器
+		a)手动创建：
+		b)命令行创建：
+		/tools>android create avd -n avdName -t 1 -c ~/sdcard.img
+		
+		参考： android create avd的参数
+			-c  –sdcard  : 指向一个共享的SD存储卡的路径，或者是新的SD储存卡容量大小。
+			-n  –name    : AVD的名字（该项是必须的）
+			-a  –snapshot : 在AVD中设置一个快照文件
+			-p  –path     : 新创建的AVD的路径
+			-f   –force    : 强制创建AVD（若有同名的AVD，则覆盖）
+			-s –skin       :创建新的AVD皮肤
+			-t   –target  : 新创建的AVD的TargetID(此项是必须的，targetID可以android list targets来判定)
+			-b  –abi   : AVD 使用的ABI。如果该平台只有一个ABI，默认是自动选择的ABI
+			
+	3. 启动模拟器：
 	4. 从sdcard导入联系人
-		$cd /home/bigbug/local/adt-bundle-linux-x86_64-20140702/sdk/platform-tools
-		$./adb push  ~/workspace/AndroidClick/vcard/xxx.vcf  /sdcard/
+		>cd /home/bigbug/local/adt-bundle-linux-x86_64-20140702/sdk/platform-tools
+		>./adb push  ~/workspace/AndroidClick/vcard/xxx.vcf  /sdcard/
 	5. 安装微博apk
-		adb install com.sina.weibo4.5.5_liqucn.com.apk
-	
-	
-	
-	
+		>cd /home/bigbug/local/adt-bundle-linux-x86_64-20140702/sdk/platform-tools
+		>./adb install ~/adt-workspace/com.sina.weibo*.com.apk
+	6. 鼠标操作
