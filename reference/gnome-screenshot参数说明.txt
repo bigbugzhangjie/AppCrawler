@@ -1,0 +1,9 @@
+ -w, --window               窗口获取
+ -a, --area                    勾画屏幕方框区域获取
+ -b, --include-border           包含窗口管理器的边框
+ -B, --remove-border           抛弃窗口管理器的边框
+ -d, --delay=seconds            延时
+ -e, --border-effect=effect     边框添加 (shadow阴影, border边框或none无)
+ -i, --interactive              选项窗口
+ --display=DISPLAY              获取哪个X display
+

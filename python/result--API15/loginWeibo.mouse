@@ -1,0 +1,23 @@
+0,0	左上
+1279,1023	右下
+662,400	HOME
+269,807	setting(底中)
+426,791	OK(如果有)
+447,750	微博app
+458,125 Login按钮
+274,346	email文本区
+。。。。。。。。（输入用户名）
+181,383	passwd文本区
+。。。。。。。。（输入passwd）
+259,484	Login
+267,734	“开始我的旅程”
+171,635	“update later”
+70,124	添加好友
+264,772 mousedown
+269,171	mouseup
+262,716	通讯录好友关注
+258,199	通讯录联系人
+268,727	"enable contacts matching"
+.....	printScreen
+.....	save image
+661,400	HOME

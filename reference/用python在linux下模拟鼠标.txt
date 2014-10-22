@@ -1,5 +1,3 @@
-zz：http://blog.chinaunix.net/uid-52437-id-3068595.html
-
 需要安装python-xlib库
 使用：
 1) 记录鼠标轨迹：
@@ -26,7 +24,7 @@ python smartmouse.py -p <storage file>
 click, release, press 后边跟“：”，“：”后面的数字 1 表示左键，2 是中键，3 是右键， 4 是向上滚滚轮， 5 是向下滚滚轮。
 sleep后面数字表示在该坐标点停留的时间，单位秒。
 
-未完成部分，自动记录鼠标轨迹时候尚不能记录鼠标按键事件，有懂xlib的童鞋请提出建议或解决方法 :em42
+未完成部分，自动记录鼠标轨迹时候尚不能记录鼠标按键事件
 
 源码：
 代码:
