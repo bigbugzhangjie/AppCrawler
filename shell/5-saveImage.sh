@@ -7,5 +7,3 @@ sleep 3s
 xdotool key "Return"
 echo "Image saved!"
 
-#xdotool search "5554" windowactivate --sync mousemove --sync 24 49 mousedown 1 mousemove --sync 355 537 mouseup 1
-

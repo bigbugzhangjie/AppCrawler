@@ -14,9 +14,10 @@ public class VCardFileGenerator {
 	int max=Integer.MAX_VALUE;
 
 	public static void main(String[] args) throws IOException {
+		int MaxNumber = 40; //每个vcf文件中最多的联系人数目；
 		VCardFileGenerator gen = new VCardFileGenerator();
 		File in = new File("data/phone.txt");
-		File out = new File("vcard/contacts.vcf");
+		File out = new File("/home/bigbug/adt-workspace/vcards/");
 		if(args.length==2){
 			in = new File(args[0]);
 			out= new File(args[1]);
@@ -35,7 +36,7 @@ public class VCardFileGenerator {
 			Contact c = new Contact(cell);
 			gen.contacts.add(c);
 		}
-		Contact.toVCard(gen.contacts, out);
+		Contact.toVCard(gen.contacts, out,MaxNumber);
 	}
 	
 	public static HashSet<String> getColumnSet(File file, int index, String sep,boolean ignore) {

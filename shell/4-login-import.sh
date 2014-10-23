@@ -14,6 +14,11 @@ echo "click 添加好友"
 xdotool search "5554" windowactivate --sync mousemove --sync 56 100 click 1
 sleep 30s
 
+# 有时候好像会多出一个“找人”页面，需要多点击一次
+echo "click 添加好友"
+xdotool search "5554" windowactivate --sync mousemove --sync 185 151 click 1
+sleep 30s
+
 echo "从下向上拖拽"
 #方案一：  写在一行时操作出错，屏幕会惯性滚动
 	#xdotool search "5554" windowactivate --sync mousemove --sync 179 524 mousedown 1 mousemove --sync 184 125 mouseup 1

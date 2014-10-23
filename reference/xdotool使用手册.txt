@@ -1,0 +1,2 @@
+>man xdotool 或者 http://www.semicomplete.com/projects/xdotool/xdotool.xhtml
+分别讲解了如何使用键盘/鼠标/窗口

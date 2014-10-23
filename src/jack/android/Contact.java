@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * 
@@ -86,6 +87,11 @@ public class Contact {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	/**
+	 * 将此Contact对象转换为VCard格式的字符串
+	 * @return
+	 */
 	public String toVCard(){
 		/*
 		BEGIN:VCARD
@@ -110,6 +116,10 @@ public class Contact {
 		return ret;
 	}
 	
+	public String toString(){
+		return toVCard();
+	}
+	
 	/**
 	 * 将一组联系人导入到一个指定的文件。【文件扩展名推荐使用*.vcf】
 	 * @param list
@@ -124,6 +134,43 @@ public class Contact {
 		w.close();
 	}
 
+	/**
+	 * 将一组联系人导入到一个指定的目录，每超过num个联系人则新创建一个文件。
+	 * 文件扩展名推荐使用*.vcf
+	 * @param list
+	 * @param dir	vcf文件存放目录
+	 * @param num	每个vcf文件存放的联系人最大数量。文件名从1开始，递增。
+	 * @throws IOException
+	 */
+	public static void toVCard(Collection<Contact> list,File dir,int num) throws IOException{
+		if(list==null || list.size()<=0){
+			return;
+		}
+		if(!dir.exists() || !dir.isDirectory()){
+			dir.mkdir();
+		}
+		
+		int i=0;
+		FileWriter w = null;
+		
+		Iterator<Contact> it = list.iterator();
+		while(it.hasNext()){
+			if(i%num==0){
+				if(w!=null){
+					w.close();
+				}
+				int Nth = (i/num) + 1;
+				w = new FileWriter(new File(dir.getPath()+File.separator+Nth+".vcf"));
+			}
+			i++;
+			Contact c = it.next();
+			w.write(c.toVCard()+"\n");
+		}
+		
+		if(w!=null){
+			w.close();
+		}
+	}
 
 	public static void main(String[] args) {
 		Contact c = new Contact(18901383841L);

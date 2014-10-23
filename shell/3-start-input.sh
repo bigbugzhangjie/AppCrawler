@@ -31,18 +31,66 @@ echo "click email textarea"
 xdotool search "5554" windowactivate --sync mousemove --sync 137 244 click 1
 sleep 2s
 
-########## TODO：使用type未调通，后续应修改为使用click ################
+#使用type未调通
+# 不行：xdotool search "5554" windowactivate --sync type --clearmodifiers "bigbug05@sina.com"
+#修改为使用click ################
 echo "type username"
-xdotool search "5554" windowactivate --sync type --clearmodifiers "bigbug05@sina.com"
-sleep 5s
+# B
+xdotool search "5554" windowactivate --sync mousemove --sync 604 486 click 1
+sleep 2s
+# i
+xdotool search "5554" windowactivate --sync mousemove --sync 677 411 click 1
+sleep 2s
+# g
+xdotool search "5554" windowactivate --sync mousemove --sync 567 447 click 1
+sleep 2s
+# B
+xdotool search "5554" windowactivate --sync mousemove --sync 604 486 click 1
+sleep 2s
+# u
+xdotool search "5554" windowactivate --sync mousemove --sync 640 411 click 1
+sleep 2s
+# g
+xdotool search "5554" windowactivate --sync mousemove --sync 567 447 click 1
+sleep 2s
+# 0
+xdotool search "5554" windowactivate --sync mousemove --sync 753 372 click 1
+sleep 2s
+# 5
+xdotool search "5554" windowactivate --sync mousemove --sync 567 372 click 1
+sleep 2s
+# @
+xdotool search "5554" windowactivate --sync mousemove --sync 494 516 click 1
+sleep 2s
+# sina.com
+xdotool search "5554" windowactivate --sync mousemove --sync 187 297 click 1
+sleep 2s
 
 echo "click passwd textarea"
 xdotool search "5554" windowactivate --sync mousemove --sync 118 298 click 1
 sleep 2s
 
-########## TODO：使用type未调通，后续应修改为使用click ################
+#使用type未调通
+#xdotool search "5554" windowactivate --sync type --clearmodifiers "654123"
+#修改为使用click ################
 echo "type passwd"
-xdotool search "5554" windowactivate --sync type --clearmodifiers "654123"
+# 6
+xdotool search "5554" windowactivate --sync mousemove --sync 604 372 click 1
+sleep 2s
+# 5
+xdotool search "5554" windowactivate --sync mousemove --sync 567 372 click 1
+sleep 2s
+# @
+xdotool search "5554" windowactivate --sync mousemove --sync 530 372 click 1
+sleep 2s
+# 0
+xdotool search "5554" windowactivate --sync mousemove --sync 420 372 click 1
+sleep 2s
+# 5
+xdotool search "5554" windowactivate --sync mousemove --sync 456 372 click 1
+sleep 2s
+# @
+xdotool search "5554" windowactivate --sync mousemove --sync 494 372 click 1
 sleep 5s
 
 
