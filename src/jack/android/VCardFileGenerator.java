@@ -14,7 +14,7 @@ public class VCardFileGenerator {
 	int max=Integer.MAX_VALUE;
 
 	public static void main(String[] args) throws IOException {
-		int MaxNumber = 40; //每个vcf文件中最多的联系人数目；
+		int MaxNumber = 120; //每个vcf文件中最多的联系人数目；
 		VCardFileGenerator gen = new VCardFileGenerator();
 		File in = new File("data/phone.txt");
 		File out = new File("/home/bigbug/adt-workspace/vcards/");

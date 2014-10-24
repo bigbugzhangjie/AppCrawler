@@ -30,15 +30,14 @@
 		
 【详细步骤】：
 	0. 生成标准格式到VCard文件，并分片：
-		java VCardFileGenerator xxx/data/phone.txt yyy/vcard/contacts.vcf
-		java FileTools.split(sourceFile, targetDir, 1000) 
-		将分片后到vcard文件放入待处理目录： $HOME/adt-workspace/
+		java VCardFileGenerator xxx/data/phone.txt /home/bigbug/adt-workspace/vcards
+		（分片后的vcard文件放入待处理目录）
 	1. mksdcard: cmd进入tools目录,使用mksdcard: 
 		/tools>mksdcard -l sdcard 100M ~/sdcard.img 
 	2. AVD manager中创建模拟器，选择此sdcard.img
 		a)手动GUI创建：
 		b)命令行创建： 
-【tips】所有创建avd相关的参数，均在配置文件中可以修改，配置文件所在目录：$HOME/.android/avd/
+		【tips】所有创建avd相关的参数，均在配置文件中可以修改，配置文件所在目录：$HOME/.android/avd/
 
 			首先查看已下载的各个API对应到targtID
 		/tools>android list targets
@@ -70,3 +69,8 @@
 		3）解屏--保存
 	7. 重复步骤3
 	
+【操作步骤】
+	1. java VCardFileGenerator
+	2. cd /home/bigbug/workspace/AppCrawler/shell
+	   bash ./full.sh
+	3.

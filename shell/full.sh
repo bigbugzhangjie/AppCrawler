@@ -2,8 +2,12 @@ export SDK=$HOME/local/adt-bundle-linux-x86_64-20140702/sdk
 export WSPACE=$HOME/adt-workspace
 export TEMPLATE=$WSPACE/template
 export AVDPATH=$HOME/.android/avd
+# vcf文件数目
+vcf_num=84
+# 每个虚拟机保存的图片数目（每个page含6个联系人，目前是每个vcf文件含120个联系人）
+page_num=20
 
-for i in {1..3}
+for i in {1..84}
 do
 	echo starting $i-th round
 	date
@@ -215,7 +219,7 @@ do
 	sleep 1m
 
 	################################### 【step4:printscreeen and save image 】#####
-	for j in {1..3}
+	for j in {1..20}
 	do
 		xdotool search "5554" windowactivate --sync mousemove --sync 264 97 click 1
 		xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 6 --delay 500 5
