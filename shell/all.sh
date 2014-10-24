@@ -1,12 +1,13 @@
 #!/bin/bash
-for i in {1..30}
+for i in {1..3}
   do
-    WID=`xdotool search --title "Mozilla Firefox" | head -1`
-    xdotool windowfocus $WID
-    xdotool key ctrl+l
-    xdotool key Tab
-    SENTENCE="$(fortune | cut -d' ' -f1-3 | head -1)"
-    xdotool type $SENTENCE
-    xdotool key "Return"
-    sleep 4
+    cd /home/bigbug/workspace/AppCrawler/shell
+	bash 1-*.sh i && bash 2-*.sh  && bash 3-*.sh  && bash 4-*.sh 
+	sleep 10m
+
+	for j in {1..3}
+		bash ./5-*.sh
+	done
+
+	bash 6-*.sh
 done
