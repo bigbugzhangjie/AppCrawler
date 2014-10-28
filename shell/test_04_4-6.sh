@@ -7,7 +7,7 @@ vcf_num=3
 # 每个虚拟机保存的图片数目（每个page含6个联系人，目前是每个vcf文件含120个联系人）
 page_num=20
 
-for i in {1..3}
+for i in {4..6}
 do
 	echo ========== starting $i-th round ===========
 	date
@@ -25,20 +25,20 @@ do
 	# 不再重新创建AVD：  ./android create avd -n '1' -t 2 -c $WSPACE/sdcard.img -s HVGA -b armeabi-v7a ;sleep 1m
 
 	# starting emulator 【模拟器到名字叫“1”】
-	echo "starting AVD. sleep 3m"
+	echo "starting AVD"
 	$SDK/tools/emulator @1 &
 	sleep 3m
 
 	# import vcards
 	cd $SDK/platform-tools
-	echo "pushing vcard file. sleep 15s"
+	echo "pushing vcard file"
 	./adb push  $WSPACE/contact.vcf  /sdcard/
 	sleep 15s
 
 	# install apk
-	echo "installing weibo apk. sleep 10s"
+	echo "installing weibo apk"
 	./adb install $WSPACE/com.sina.weibo*.com.apk
-	sleep 10s
+	sleep 1m
 	# 这2m貌似是可以省的。因为接下来是导入sdcard，可以尝试并行处理。
 
 
@@ -69,7 +69,7 @@ do
 	xdotool search "5554" windowactivate --sync  mousemove --sync 192 363 click 1
 
 	# cost many seconds
-	echo "waiting to import. sleep 5m" 
+	echo "waiting to import" 
 	sleep 5m
 
 	#502,268	模拟键盘的HOME钮
@@ -99,11 +99,11 @@ do
 	xdotool search "5554" windowactivate --sync mousemove --sync 271 325 mousedown 1 mousemove --sync 68 323 mouseup 1
 	sleep 4s
 
-	echo "click weibo icon. sleep 90s"
+	echo "click weibo icon"
 	xdotool search "5554" windowactivate --sync mousemove --sync 308 163 click 1
 	sleep 90s
 	
-	echo "click login. sleep 20s"
+	echo "click login"
 	xdotool search "5554" windowactivate --sync mousemove --sync 320 101 click 1
 	sleep 20s
 
@@ -136,9 +136,13 @@ do
 	# 0
 	xdotool search "5554" windowactivate --sync mousemove --sync 753 372 click 1
 	sleep 2s
+
 	# 5
-	xdotool search "5554" windowactivate --sync mousemove --sync 567 372 click 1
+#	xdotool search "5554" windowactivate --sync mousemove --sync 567 372 click 1
+	# 4
+	xdotool search "5554" windowactivate --sync mousemove --sync 530 372 click 1
 	sleep 2s
+
 	# @
 	xdotool search "5554" windowactivate --sync mousemove --sync 494 516 click 1
 	sleep 2s
@@ -173,19 +177,19 @@ do
 	xdotool search "5554" windowactivate --sync mousemove --sync 494 372 click 1
 	sleep 5s
 
-	echo "click Login button. sleep 90s"
+	echo "click Login button"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 368 click 1
 	sleep 90s
 
-	echo "click 开始我的旅程. sleep 20s"
+	echo "click 开始我的旅程"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 454 click 1
-	sleep 20s
+	sleep 30s
 
-	echo "update later. sleep 20s"
+	echo "update later"
 	xdotool search "5554" windowactivate --sync mousemove --sync 122 412 click 1
 	sleep 20s
 
-	echo "click 添加好友. sleep 30s"
+	echo "click 添加好友"
 	xdotool search "5554" windowactivate --sync mousemove --sync 56 100 click 1
 	sleep 30s
 
@@ -211,16 +215,16 @@ do
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click 1
 	sleep 15s
 
-	echo "click 通讯录联系人. sleep 15s"
+	echo "click 通讯录联系人"
 	xdotool search "5554" windowactivate --sync mousemove --sync 180 152 click 1
 	sleep 15s
 
-	echo "enable contact matching. sleep 90s"
+	echo "enable contact matching"
 	xdotool search "5554" windowactivate --sync mousemove --sync 185 496 click 1
 	sleep 90s
 
 	################################### 【step4:printscreeen and save image 】#####
-	for j in {1..10}
+	for j in {1..9}
 	do
 		xdotool search "5554" windowactivate --sync mousemove --sync 264 97 click 1
 		xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 6 --delay 1000 5
@@ -235,7 +239,6 @@ do
 	############################# 【step5:clear and quit 】###################
 	# close apk
 	xdotool search "5554" windowactivate --sync mousemove --sync 781 15 click 1
-	sleep 3s
 
 	# save image
 	mkdir $WSPACE/image/$i
@@ -255,3 +258,5 @@ do
 done
 echo ============ Ending program =============
 date
+
+
