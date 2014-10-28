@@ -17,12 +17,13 @@ public class VCardFileGenerator {
 		int MaxNumber = 120; //每个vcf文件中最多的联系人数目；
 		VCardFileGenerator gen = new VCardFileGenerator();
 		File in = new File("data/phone.txt");
-		File out = new File("/home/bigbug/adt-workspace/vcards/");
+		String path = "/home/bigbug/adt-workspace/vcards/";
+		File out = new File(path);
 		if(args.length==2){
 			in = new File(args[0]);
 			out= new File(args[1]);
 		}else{
-			System.err.println("Using default input/output files:");
+			System.err.println("Using default input/output files: \n");
 		}
 		System.out.println("\tinput file: "+in.toString()
 				+ "\n\toutput file: "+out.toString()
@@ -36,7 +37,12 @@ public class VCardFileGenerator {
 			Contact c = new Contact(cell);
 			gen.contacts.add(c);
 		}
+		
+		// 分为多个文件；
 		Contact.toVCard(gen.contacts, out,MaxNumber);
+		
+		// 全部写入一个文件；
+		Contact.toVCard(gen.contacts, new File(path+"/all.vcf"));
 	}
 	
 	public static HashSet<String> getColumnSet(File file, int index, String sep,boolean ignore) {

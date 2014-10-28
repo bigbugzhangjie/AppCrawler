@@ -7,7 +7,7 @@ vcf_num=3
 # 每个虚拟机保存的图片数目（每个page含6个联系人，目前是每个vcf文件含120个联系人）
 page_num=20
 
-for i in {1..3}
+for i in {6..6}
 do
 	echo ========== starting $i-th round ===========
 	date
@@ -38,7 +38,7 @@ do
 	# install apk
 	echo "installing weibo apk"
 	./adb install $WSPACE/com.sina.weibo*.com.apk
-	sleep 10s
+	sleep 1m
 	# 这2m貌似是可以省的。因为接下来是导入sdcard，可以尝试并行处理。
 
 
@@ -136,9 +136,13 @@ do
 	# 0
 	xdotool search "5554" windowactivate --sync mousemove --sync 753 372 click 1
 	sleep 2s
+
 	# 5
-	xdotool search "5554" windowactivate --sync mousemove --sync 567 372 click 1
+#	xdotool search "5554" windowactivate --sync mousemove --sync 567 372 click 1
+	# 4
+	xdotool search "5554" windowactivate --sync mousemove --sync 530 372 click 1
 	sleep 2s
+
 	# @
 	xdotool search "5554" windowactivate --sync mousemove --sync 494 516 click 1
 	sleep 2s
@@ -253,3 +257,5 @@ do
 done
 echo ============ Ending program =============
 date
+
+
