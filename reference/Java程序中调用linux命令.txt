@@ -1,0 +1,126 @@
+java程序中调用linux命令  
+  
+Java语言以其跨平台性和简易性而著称，在Java里面的lang包里(java.lang.Runtime)提供了一个允许Java程序与该程序所运
+行的环境交互的接口，这就是Runtime类，在Runtime类里提供了获取当前运行环境的接口。
+
+其中的exec函数返回一个执行shell命令的子进程。
+exec函数的具体实现形式有以下几种：
+
+    Process exec(String command)   
+             在单独的进程中执行指定的字符串命令。  
+    Process exec(String command, String[] envp)   
+             在指定环境的单独进程中执行指定的字符串命令。  
+    Process exec(String command, String[] envp, File dir)   
+             在有指定环境和工作目录的独立进程中执行指定的字符串命令。  
+    Process exec(String[] cmdarray)   
+             在单独的进程中执行指定命令和变量。   
+    Process exec(String[] cmdarray, String[] envp)   
+             在指定环境的独立进程中执行指定命令和变量。   
+    Process exec(String[] cmdarray, String[] envp, File dir)   
+             在指定环境和工作目录的独立进程中执行指定的命令和变量。   
+
+Runtime.exec方法所创建的子进程没有自己的终端或控制台,因此该子进程的标准IO(如stdin,stdou,stderr)都通过Process.getOutputStream(),Process.getInputStream(), Process.getErrorStream()方法重定向给它的父进程了.用户需要用这些stream来向子进程输入数据或获取子进程的输出.
+
+  
+在这里主要用到的是第一个和第四个函数，具体方法很简单，就是在exec函数中传递一个代表命令的字符串。exec函数返回的是一个Process类
+型的类的实例。Process类主要用来控制进程，获取进程信息等作用。(具体信息及其用法请参看Java doc)。
+ 
+1）执行简单的命令的方法：
+代码如下：
+       
+try            
+String commands = "ls -l";
+           
+Process process = Runtime.getRuntime().exec (commands);
+           
+// for showing the info on screen
+           
+InputStreamReader ir=new
+InputStreamReader(process.getInputStream());
+           
+BufferedReader input = new BufferedReader (ir);
+           
+String line;
+           
+while ((line = input.readLine ()) != null){
+               
+System.out.println(line);
+       
+}//end try
+       
+catch (java.io.IOException e){
+           
+System.err.println ("IOException " + e.getMessage());
+       
+}   
+
+上面的代码首先是声明了一个代表命令的字符串commands，它代表了ls -l
+这个命令。之后我们用Runtime.getRuntime().exec(commands)来生成一个子进程来执行这个命令，如果这句话运行成功，则
+命令 ls -l 运行成功(由于没有让它显示，不会显示ls -l
+的结果)。后面的流操作则是获取进程的流信息，并把它们一行行输出到屏幕。
+
+
+
+
+2）执行带有参数的命令(尤其是参数需要用引号的)时则需要用String的数组来表示整个命令，而且要用转义符把引号的特殊含义去除，例如我们要执行
+find / -name "*mysql*" -print 时，用如下代码
+       
+try            
+String[] commands = new
+String[]{"find",".","-name","*mysql*","-print"};
+           
+Process process = Runtime.getRuntime().exec (commands);
+           
+InputStreamReader ir=new
+InputStreamReader(process.getInputStream());
+           
+BufferedReader input = new BufferedReader (ir);
+           
+String line;
+           
+while ((line = input.readLine ()) != null){
+               
+System.out.println(line);
+        
+}//end try
+       
+catch (java.io.IOException e){
+           
+System.err.println ("IOException " + e.getMessage());
+
+
+
+3)执行一个自己写的脚本
+非常简单，只需要在构造commands时写出它的详细路径和文件名，及参数等。
+   try
+           
+String commands = "/root/test/checkfile.sh";
+           
+Process process = Runtime.getRuntime().exec (commands);
+           
+InputStreamReader ir=new
+InputStreamReader(process.getInputStream());
+           
+BufferedReader input = new BufferedReader (ir);
+           
+String line;
+           
+while ((line = input.readLine ()) != null){
+               
+System.out.println(line);
+        
+}//end try
+       
+catch (java.io.IOException e){
+           
+System.err.println ("IOException " + e.getMessage());
+ 
+如果命令中有参数，同2）要用数组的形式。
+ 
+ 
+ 
+
+【注意：】
+Runtime.getRuntime().exec()这种调用方式在java虚拟机中是十分消耗资源的，即使命令可以很快的执行完毕，频繁的调用时创建进程消耗十分客观。
+
+java虚拟机执行这个命令的过程是，首先克隆一条和当前虚拟机拥有一样环境变量的进程，再用这个新的进程执行外部命令，最后退出这个进程。频繁的创建对CPU和内存的消耗很大
