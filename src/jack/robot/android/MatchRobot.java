@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 import jack.utility.FileTools;;
 
-public class Runner extends Robot{
-	public Runner(File f){
+public class MatchRobot extends Robot{
+	public MatchRobot(File f){
 		super(f);
 	}
 	public void run(){
@@ -16,7 +16,7 @@ public class Runner extends Robot{
 	}
 
 	public static void main(String[] args) throws IOException {
-		Runner runner = new Runner(new File("/home/bigbug/workspace/WeiboCrawler/doc/accounts.txt"));
+		MatchRobot runner = new MatchRobot(new File("/home/bigbug/workspace/WeiboCrawler/doc/accounts.txt"));
 		runner.run();
 	}
 }
