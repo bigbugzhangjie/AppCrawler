@@ -8,12 +8,12 @@ import java.util.HashMap;
 import jack.utility.FileTools;;
 
 public abstract class Robot {
-	HashMap<String,String> accounts ;//key：用户名， value:密码
+	ArrayList<WeiboAccount> accounts ;//key：用户名， value:密码
 	public Robot(){
 		File file = new File("data/account.txt");
 		init(file); 
 	}
-	public Robot(HashMap<String,String> weiboAccounts){
+	public Robot(ArrayList<WeiboAccount> weiboAccounts){
 		this.accounts = weiboAccounts;
 	}
 	
@@ -25,7 +25,7 @@ public abstract class Robot {
 		init(accountfile);
 	}
 	private void init(File f){
-		accounts = new HashMap<String,String>();
+		accounts = new ArrayList<WeiboAccount>();
 		ArrayList<Integer> idx = new ArrayList<Integer> ();
 		idx.add(0);
 		idx.add(1);
@@ -37,11 +37,12 @@ public abstract class Robot {
 			String user = entry.get(0);
 			String pwd = entry.get(1);
 			if(user!=null && user.length()>0 && pwd!=null && pwd.length()>0 ){
-				accounts.put(user, pwd);
+				accounts.add(new WeiboAccount(user, pwd));
 			}
 		}
 	}
 	
-	public abstract void run();
+	public abstract void run() throws InterruptedException, IOException;
 
 }
+
