@@ -87,6 +87,8 @@ public class MatchRobot extends Robot{
 	 */
 	private void generateScript(String uname,String pwd,File vcf,File script){
 		//TODO
+		//修改template.sh, 不在文件内做 *.vcf 循环
+		//按照uname,pwd生成鼠标点击脚本
 		
 	}
 	private void callShell(File f) throws InterruptedException{
