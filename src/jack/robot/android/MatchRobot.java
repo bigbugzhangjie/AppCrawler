@@ -55,7 +55,7 @@ public class MatchRobot extends Robot{
 			System.out.println("vcardfile:"+vcard+"\taccount:"+accountIdx+"\t"+account.toString());
 			Timer timer = new Timer();
 			
-			File shell = new File(SCRIPT.getAbsolutePath()+File.separator+"temp-f"+i+"-u"+accountIdx+".sh");
+			File shell = new File(SCRIPT.getAbsoluteFile().getParent()+File.separator+"temp-f"+i+"-u"+accountIdx+".sh");
 			generateScript(account.getUsername(),account.getPasswd(),vcard, shell);
 			timer.add("generate script");
 			callShell(shell);
