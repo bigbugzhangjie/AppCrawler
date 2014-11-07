@@ -60,18 +60,41 @@ public class KeyboardLocation {
 		
 	}
 	
+	/**
+	 * 在模拟器上用鼠标点击的方式输入str
+	 * @param str
+	 * @return
+	 */
+	public static String typeText(String str) {
+		
+		String ret = "";
+		
+		String pre ="xdotool search \"5554\" windowactivate --sync mousemove --sync ";
+		String post=" click 1\nsleep 2s\n";
+		for(int i=0;i<str.length();i++){
+			String c = String.valueOf( str.charAt(i) );
+			KeyboardGeo button = map.get(c);
+			String loc = button.toString();
+			ret += pre+loc+post;
+		}
+		return ret;
+	}
+	
 	public static void main(String[] args) {
-		String key = "1";
-		String loc = KeyboardLocation.map.get(key).toString();
-		System.out.println(loc);
+//		String key = "1";
+//		String loc = KeyboardLocation.map.get(key).toString();
+//		System.out.println(loc);
+//		
+//		 key = "alt_r";
+//		 loc = KeyboardLocation.map.get(key).toString();
+//		System.out.println(loc);
+//		
+//		 key = "8";
+//		 loc = KeyboardLocation.map.get(key).toString();
+//		System.out.println(loc);
 		
-		 key = "alt_r";
-		 loc = KeyboardLocation.map.get(key).toString();
-		System.out.println(loc);
-		
-		 key = "8";
-		 loc = KeyboardLocation.map.get(key).toString();
-		System.out.println(loc);
+		String user = "bigbug05@sina.com";
+		System.out.println(typeText(user));
 
 	}
 	
@@ -83,6 +106,9 @@ class KeyboardGeo{
 		this.x = x;
 		this.y = y;
 	}
+	/**
+	 * x+" "+y
+	 */
 	public String toString(){
 		return x+" "+y;
 	}

@@ -1,14 +1,20 @@
-### define VCFFILE VCFNAME ###
-SDK=$HOME/local/adt-bundle-linux-x86_64-20140702/sdk
-WSPACE=$HOME/adt-workspace
-TEMPLATE=$WSPACE/template
-AVDPATH=$HOME/.android/avd
+export SDK=$HOME/local/adt-bundle-linux-x86_64-20140702/sdk
+export WSPACE=$HOME/adt-workspace
+export TEMPLATE=$WSPACE/template
+export AVDPATH=$HOME/.android/avd
+# vcf文件数目，每个帐号每天只能上传3次
+vcf_num=3 
+# 每个虚拟机保存的图片数目（每个page含6个联系人，目前是每个vcf文件含120个联系人）
+page_num=20
 
+for i in {6..15}
+do
+	echo ========== starting $i-th round ===========
 	date
 	################################# 【step1:create AVD】 ####################
 	# prepare data
 	cd $WSPACE
-	cp $VCFFILE contact.vcf
+	cp ./vcards/$i.vcf contact.vcf
 
 	# mksdcard
 	cd $SDK/tools/
@@ -105,13 +111,67 @@ AVDPATH=$HOME/.android/avd
 	xdotool search "5554" windowactivate --sync mousemove --sync 137 244 click 1
 	sleep 5s
 
-###type username here###
+	#使用type未调通
+	# 不行：xdotool search "5554" windowactivate --sync type --clearmodifiers "bigbug05@sina.com"
+	#修改为使用click ################
+	echo "type username"
+	# B
+	xdotool search "5554" windowactivate --sync mousemove --sync 604 486 click 1
+	sleep 2s
+	# i
+	xdotool search "5554" windowactivate --sync mousemove --sync 677 411 click 1
+	sleep 2s
+	# g
+	xdotool search "5554" windowactivate --sync mousemove --sync 567 447 click 1
+	sleep 2s
+	# B
+	xdotool search "5554" windowactivate --sync mousemove --sync 604 486 click 1
+	sleep 2s
+	# u
+	xdotool search "5554" windowactivate --sync mousemove --sync 640 411 click 1
+	sleep 2s
+	# g
+	xdotool search "5554" windowactivate --sync mousemove --sync 567 447 click 1
+	sleep 2s
+	# 0
+	xdotool search "5554" windowactivate --sync mousemove --sync 753 372 click 1
+	sleep 2s
+	# 5
+	xdotool search "5554" windowactivate --sync mousemove --sync 567 372 click 1
+	sleep 2s
+	# @
+	xdotool search "5554" windowactivate --sync mousemove --sync 494 516 click 1
+	sleep 2s
+	# sina.com
+	xdotool search "5554" windowactivate --sync mousemove --sync 187 297 click 1
+	sleep 2s
 
 	echo "click passwd textarea"
 	xdotool search "5554" windowactivate --sync mousemove --sync 118 298 click 1
 	sleep 2s
 
-###type passwd here###
+	#使用type未调通
+	#xdotool search "5554" windowactivate --sync type --clearmodifiers "654123"
+	#修改为使用click ################
+	echo "type passwd"
+	# 6
+	xdotool search "5554" windowactivate --sync mousemove --sync 604 372 click 1
+	sleep 2s
+	# 5
+	xdotool search "5554" windowactivate --sync mousemove --sync 567 372 click 1
+	sleep 2s
+	# 4
+	xdotool search "5554" windowactivate --sync mousemove --sync 530 372 click 1
+	sleep 2s
+	# 1
+	xdotool search "5554" windowactivate --sync mousemove --sync 420 372 click 1
+	sleep 2s
+	# 2
+	xdotool search "5554" windowactivate --sync mousemove --sync 456 372 click 1
+	sleep 2s
+	# 3
+	xdotool search "5554" windowactivate --sync mousemove --sync 494 372 click 1
+	sleep 5s
 
 	echo "click Login button. sleep 90s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 368 click 1
@@ -129,7 +189,21 @@ AVDPATH=$HOME/.android/avd
 	xdotool search "5554" windowactivate --sync mousemove --sync 56 100 click 1
 	sleep 30s
 
+#	# 有时候好像会多出一个“找人”页面，需要多点击一次。绝大多数情况下不出现此页面
+#	echo "click 添加好友"
+#	xdotool search "5554" windowactivate --sync mousemove --sync 185 151 click 1
+#	sleep 30s
+
 	echo "从下向上拖拽"
+	#方案一：  写在一行时操作出错，屏幕会惯性滚动
+		#xdotool search "5554" windowactivate --sync mousemove --sync 179 524 mousedown 1 mousemove --sync 184 125 mouseup 1
+	#方案二：  写在多行时也出错，mousemove的速度太快，屏幕仍会惯性滚动
+		#xdotool search "5554" windowactivate --sync mousemove --sync 179 524 mousedown 1 
+		#sleep 1s
+		#xdotool mousemove --sync 184 125 
+		#sleep 3s
+		#xdotool search "5554" windowactivate --sync mouseup 1
+	#方案三： 可行
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 12 --delay 500 5
 	sleep 2s
 
@@ -157,7 +231,7 @@ AVDPATH=$HOME/.android/avd
 		xdotool mousemove --sync 96 124 mousedown 1 mousemove --sync 290 528 mouseup 1
 		sleep 5s
 		xdotool key "Return"
-		echo "Saved image:" $VCFNAME-$j
+		echo "Saved image:" $i - $j
 	done
 	############################# 【step5:clear and quit 】###################
 	# close apk
@@ -165,12 +239,12 @@ AVDPATH=$HOME/.android/avd
 	sleep 3s
 
 	# save image
-	mkdir $WSPACE/image/$VCFNAME
-	mv $HOME/Desktop/*.png $WSPACE/image/$VCFNAME/
+	mkdir $WSPACE/image/$i
+	mv $HOME/Desktop/*.png $WSPACE/image/$i/
 
 	# mv finished data
 	cd $WSPACE/vcards
-	mv $VCFFILE ./done/$VCFNAME.vcf
+	mv $i.vcf ./done/$i.vcf
 
 	# delete existing sdcard/vcard/AVD
 	cd $WSPACE
@@ -179,6 +253,8 @@ AVDPATH=$HOME/.android/avd
 	cd $AVDPATH
 	rm -f 1.ini
 	rm -rf 1.avdl
+
+	sleep 7h
 done
 echo ============ Ending program =============
 date

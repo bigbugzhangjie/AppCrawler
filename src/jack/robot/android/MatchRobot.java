@@ -5,9 +5,11 @@ import jack.utility.Timer;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.List;
 
 public class MatchRobot extends Robot{
 	public static File SCRIPT = new File("templates/template.sh"); //shell 脚本文件
@@ -58,6 +60,7 @@ public class MatchRobot extends Robot{
 			timer.add("generate script");
 			callShell(shell);
 			timer.add("run script");
+			
 			if(!debug){
 				FileTools.forceDelete(shell); //debug阶段先注掉；
 			}
@@ -84,13 +87,32 @@ public class MatchRobot extends Robot{
 	 * @param pwd	微博用户密码
 	 * @param vcf	vcard文件
 	 * @param script	待生成的脚本文件
+	 * @throws IOException 
 	 */
-	private void generateScript(String uname,String pwd,File vcf,File script){
-		//TODO
-		//修改template.sh, 不在文件内做 *.vcf 循环
-		//按照uname,pwd生成鼠标点击脚本
+	private void generateScript(String uname,String pwd,File vcf,File script) throws IOException{
+		String vcfpath = vcf.getAbsolutePath();
+		String fn = vcf.getName();
+		String vcfname = fn.substring(0, fn.indexOf("."));
 		
+		List<String> lines = FileTools.getLineList(SCRIPT);
+		String typeusername = KeyboardLocation.typeText(uname);
+		String typepwd = KeyboardLocation.typeText(pwd);
+		FileWriter writer = new FileWriter(script);
+		for(String line : lines){
+			if(line.equals("### define VCFFILE VCFNAME ###")){
+				line = "VCFFILE="+vcfpath+"\nVCFNAME="+vcfname;
+			}else if(line.equals("###type username here###")){
+				line = typeusername;
+			}else if(line.equals("###type passwd here###")){
+				line = typepwd;
+			}
+			writer.write(line+"\n");
+		}
+		writer.close();
+	
 	}
+	
+	
 	private void callShell(File f) throws InterruptedException{
 		try {
 			
