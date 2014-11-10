@@ -57,9 +57,9 @@ public class MatchRobot extends Robot{
 			
 			File shell = new File(SCRIPT.getAbsoluteFile().getParent()+File.separator+"temp-f"+i+"-u"+accountIdx+".sh");
 			generateScript(account.getUsername(),account.getPasswd(),vcard, shell);
-			timer.add("generate script");
+//			timer.add("generate script"); //cost: 0h-0m-0s
 			callShell(shell);
-			timer.add("run script");
+			timer.add("run script");	//cost: 0h-21m-31s
 			
 			if(!debug){
 				FileTools.forceDelete(shell); //debug阶段先注掉；
@@ -72,11 +72,13 @@ public class MatchRobot extends Robot{
 			}
 			timer.printAll();
 			
-			if(debug){
-				if(round==2){
-					return;
-				}
-			}
+//			//为了debug，只跑两轮
+//			Thread.sleep(600000); //间歇10分钟
+//			if(debug){
+//				if(round==2){
+//					return;
+//				}
+//			}
 		}
 		
 	}

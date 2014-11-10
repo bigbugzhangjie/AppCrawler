@@ -125,12 +125,13 @@ AVDPATH=$HOME/.android/avd
 	xdotool search "5554" windowactivate --sync mousemove --sync 122 412 click 1
 	sleep 20s
 
-	echo "click 添加好友. sleep 30s"
+	echo "点击左上角的[添加好友]图标. sleep 30s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 56 100 click 1
 	sleep 30s
 
-	echo "从下向上拖拽"
+	echo "向下滚动12下，寻找[通讯录好友关注]"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 12 --delay 500 5
+	#xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 17 --delay
 	sleep 2s
 
 	echo "click 通讯录好友关注"
@@ -141,9 +142,9 @@ AVDPATH=$HOME/.android/avd
 	xdotool search "5554" windowactivate --sync mousemove --sync 180 152 click 1
 	sleep 15s
 
-	echo "enable contact matching. sleep 90s"
+	echo "enable contact matching. sleep 2m"
 	xdotool search "5554" windowactivate --sync mousemove --sync 185 496 click 1
-	sleep 90s
+	sleep 2m
 
 	################################### 【step4:printscreeen and save image 】#####
 	for j in {1..9}
@@ -178,7 +179,7 @@ AVDPATH=$HOME/.android/avd
 	rm -f contact.vcf
 	cd $AVDPATH
 	rm -f 1.ini
-	rm -rf 1.avdl
+	rm -rf 1.avd
 done
 echo ============ Ending program =============
 date
