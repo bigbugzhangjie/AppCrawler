@@ -129,10 +129,11 @@ AVDPATH=$HOME/.android/avd
 	xdotool search "5554" windowactivate --sync mousemove --sync 56 100 click 1
 	sleep 30s
 
-	echo "向下滚动12下，寻找[通讯录好友关注]"
-	xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 12 --delay 500 5
-	#xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 17 --delay
-	sleep 2s
+	echo "向下滚动12下，寻找[通讯录好友关注]. sleep 10s"
+	xdotool search "5554" windowactivate --sync mousemove --sync 264 97 click 1
+	#xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 12 --delay 1500 5
+	xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 12 --delay 1500 5
+	sleep 10s
 
 	echo "click 通讯录好友关注"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click 1

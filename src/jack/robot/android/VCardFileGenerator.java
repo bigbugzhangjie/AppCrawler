@@ -14,14 +14,18 @@ public class VCardFileGenerator {
 	public static void main(String[] args) throws IOException {
 		int MaxNumber = 400; //每个vcf文件中最多的联系人数目；
 		VCardFileGenerator gen = new VCardFileGenerator();
-		File in = new File("/home/bigbug/adt-workspace/data/phone.txt");
-		String path = "/home/bigbug/adt-workspace/vcards/";
+//		File in = new File("/home/bigbug/adt-workspace/data/phone-10k-congying.txt");
+		File in = new File("/home/bigbug/adt-workspace/data/zhangyun/寿险1.tsv");
+		String path = "/home/bigbug/adt-workspace/vcards/all";
 		File out = new File(path);
 		if(args.length==2){
 			in = new File(args[0]);
 			out= new File(args[1]);
 		}else{
 			System.err.println("Using default input/output files: \n");
+		}
+		if(!out.exists() || !out.isDirectory()){
+			out.mkdir();
 		}
 		System.out.println("\tinput file: "+in.toString()
 				+ "\n\toutput file: "+out.toString()
@@ -31,16 +35,20 @@ public class VCardFileGenerator {
 				
 		gen.contacts = new HashSet<Contact>();
 		for(String s :phones){
-			long cell = Long.parseLong(s);
-			Contact c = new Contact(cell);
-			gen.contacts.add(c);
+			try{
+				long cell = Long.parseLong(s);
+				Contact c = new Contact(cell);
+				gen.contacts.add(c);
+			}catch(Exception e){
+				System.err.println("ignore cellphone format error:"+s);
+			}
 		}
 		
 		// 分为多个文件；
 		Contact.toVCard(gen.contacts, out,MaxNumber);
 		
 		// 全部写入一个文件；
-		Contact.toVCard(gen.contacts, new File(path+"/all.vcf"));
+		Contact.toVCard(gen.contacts, new File(path+File.separator+"all.vcf"));
 	}
 	
 	public static HashSet<String> getColumnSet(File file, int index, String sep,boolean ignore) {

@@ -73,13 +73,17 @@
 	6. 模拟鼠标操作
 		1）导入联系人
 		2）启动微博--Login--导入联系人好友
-		3）解屏--保存
-	7. 重复步骤3
+		3）截屏--保存--翻页--再截屏--...
+	7. 删除avd,截屏图片移动到目标文件夹，
+	8. 重复步骤3
 	
 【操作步骤】
-	1. java VCardFileGenerator
-	2. cd /home/bigbug/workspace/AppCrawler/shell
-	   bash ./full.sh
+	1. VCardFileGenerator.java ，配置参数，生成.vcf文件
+	2. 将需要处理的文件拷贝到/home/bigbug/adt-workspace/vcards/ 文件夹下。
+		注意，分布式爬取时需要为每台机器分配不同的vcf任务，避免重复爬取
+	3. 配置accounts.this 文件，第一列为帐号的用户名，第二列为密码
+		注意，分布式爬取时需要为每台机器分配不同的帐号
+	4. MatchRobot.java
 
 	
 【重要】
@@ -93,6 +97,9 @@
 	4. 每个X桌面下，每次只能运行一个爬虫，因为xdotool按照android虚拟机的窗口名来模糊匹配的
 	
 【依赖】
-	xdotool
-	gnome-screenshot
-	飞Q客户端
+	xdotool	(安装方式：yum install xdotool)
+	gnome-screenshot (安装方式：yum install glib, yum install gnome-util*)
+	飞Q客户端 (用于注册新浪微博帐号时验证手机号码)
+	android sdk的其他依赖 （运行mksdcard/adb等命令时，依赖ld-linux.so.2,libstdc++.so.6等，yum安装）
+	屏幕左上角不能有panel，否则屏幕不能对齐到（0，0）坐标
+	
