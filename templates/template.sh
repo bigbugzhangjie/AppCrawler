@@ -20,7 +20,7 @@ AVDPATH=$HOME/.android/avd
 
 	# starting emulator 【模拟器到名字叫“1”】
 	echo "starting AVD. sleep 3m"
-	$SDK/tools/emulator @1 &
+	$SDK/tools/emulator @1 & emuid=$!
 	sleep 3m
 
 	# import vcards
@@ -162,9 +162,10 @@ AVDPATH=$HOME/.android/avd
 		echo "Saved image:" $VCFNAME-$j
 	done
 	############################# 【step5:clear and quit 】###################
-	# close apk
-	xdotool search "5554" windowactivate --sync mousemove --sync 781 15 click 1
-	sleep 3s
+echo close emulator
+kill -9 $emuid
+#xdotool search "5554" windowactivate --sync mousemove --sync 781 15 click 1 & closepid=$!;sleep 3s;kill -9 $closepid
+#timeout 2s xdotool search "5554" windowactivate --sync mousemove --sync 781 15 click 1 
 
 	# save image
 	mkdir $WSPACE/image/$VCFNAME
@@ -181,6 +182,6 @@ AVDPATH=$HOME/.android/avd
 	cd $AVDPATH
 	rm -f 1.ini
 	rm -rf 1.avd
-done
+
 echo ============ Ending program =============
 date

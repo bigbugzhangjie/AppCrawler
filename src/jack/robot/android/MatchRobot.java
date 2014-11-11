@@ -139,7 +139,7 @@ public class MatchRobot extends Robot{
 
 	public static void main(String[] args) throws Exception {
 		MatchRobot.debug = true;
-		File acc = new File("/home/bigbug/workspace/WeiboCrawler/doc/accounts.this");
+		File acc = new File("/home/bigbug/adt-workspace/account/sinosig100.txt");
 		File dir = new File("/home/bigbug/adt-workspace/vcards");
 		MatchRobot runner = new MatchRobot(acc,dir);
 		runner.run();
