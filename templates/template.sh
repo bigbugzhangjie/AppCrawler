@@ -183,5 +183,8 @@ kill -9 $emuid
 	rm -f 1.ini
 	rm -rf 1.avd
 
+	#android会在tmp下创建临时文件，每个218M，磁盘写满后无法继续创建新的模拟器
+	rm /tmp/android-bigbug/*
+
 echo ============ Ending program =============
 date
