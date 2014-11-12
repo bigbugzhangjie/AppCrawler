@@ -139,9 +139,25 @@ public class MatchRobot extends Robot{
 
 	public static void main(String[] args) throws Exception {
 		MatchRobot.debug = true;
-		File acc = new File("/home/bigbug/adt-workspace/account/sinosig100.txt");
-		File dir = new File("/home/bigbug/adt-workspace/vcards");
+		String user = "bigbug";
+		String machine = "sinosig100";
+		String accstr = "/home/"+user+"/adt-workspace/account/"+machine+".txt";
+		String dirstr = "/home/"+user+"/adt-workspace/vcards";
+		
+		File image = new File("/home/"+user+"/adt-workspace/image");
+		if(!image.exists() || !image.isDirectory()){
+			image.mkdir();
+		}
+		File done = new File(dirstr+File.separator+"done");
+		if(!done.exists() || !done.isDirectory()){
+			done.mkdir();
+		}
+		
+		
+		File acc = new File(accstr);
+		File dir = new File(dirstr);
 		MatchRobot runner = new MatchRobot(acc,dir);
+		
 		runner.run();
 	}
 }
