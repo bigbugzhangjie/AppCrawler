@@ -64,7 +64,7 @@ AVDPATH=$HOME/.android/avd
 
 	# cost many seconds
 	echo "waiting to import. sleep 5m" 
-	sleep 5m
+	sleep 4m
 
 	#502,268	模拟键盘的HOME钮
 	echo "click HOME button" 
@@ -113,29 +113,30 @@ AVDPATH=$HOME/.android/avd
 
 ###type passwd here###
 
-	echo "click Login button. sleep 90s"
+	echo "click Login button. sleep 30s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 368 click 1
-	sleep 90s
+	sleep 30s
 
-	echo "click 开始我的旅程. sleep 20s"
+	echo "click 开始我的旅程. sleep 35s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 454 click 1
-	sleep 20s
+	sleep 35s
 
 	echo "update later. sleep 20s"
-	xdotool search "5554" windowactivate --sync mousemove --sync 122 412 click 1
+	xdotool search "5554" windowactivate --sync mousemove --sync 127 364 click 1
+	xdotool search "5554" windowactivate --sync mousemove --sync 127 364 click 1
 	sleep 20s
 
 	echo "点击左上角的[添加好友]图标. sleep 30s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 56 100 click 1
 	sleep 30s
 
-	echo "向下滚动12下，寻找[通讯录好友关注]. sleep 10s"
-	xdotool search "5554" windowactivate --sync mousemove --sync 264 97 click 1
+	echo "向下滚动17下，寻找[通讯录好友关注]. sleep 5s"
+#	xdotool search "5554" windowactivate --sync mousemove --sync 264 97 click 1
 	#xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 12 --delay 1500 5
-	xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 12 --delay 1500 5
-	sleep 10s
+	xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 17 --delay 1500 5
+	sleep 5s
 
-	echo "click 通讯录好友关注"
+	echo "click 通讯录好友关注  sleep 15s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click 1
 	sleep 15s
 
@@ -148,24 +149,25 @@ AVDPATH=$HOME/.android/avd
 	sleep 2m
 
 	################################### 【step4:printscreeen and save image 】#####
-	for j in {1..9}
-	do
-		xdotool search "5554" windowactivate --sync windowmove 0 0
-		xdotool search "5554" windowactivate --sync mousemove --sync 264 97 click 1
-		xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 6 --delay 1000 5
-		sleep 2s		
-		gnome-screenshot -a &
-		sleep 3s
-		xdotool mousemove --sync 96 124 mousedown 1 mousemove --sync 290 528 mouseup 1
-		sleep 5s
-		xdotool key "Return"
-		echo "Saved image:" $VCFNAME-$j
-	done
-	############################# 【step5:clear and quit 】###################
-echo close emulator
+for j in {1..9}
+do
+xdotool search "5554" windowactivate --sync windowmove 0 0
+xdotool search "5554" windowactivate --sync mousemove --sync 264 97 click 1
+xdotool search "5554" windowactivate --sync mousemove --sync 189 504 click --repeat 6 --delay 1000 5
+sleep 2s		
+gnome-screenshot -a &
+sleep 3s
+xdotool mousemove --sync 96 124 mousedown 1 mousemove --sync 290 528 mouseup 1
+sleep 5s
+xdotool key "Return"
+echo "Saved image:" $VCFNAME-$j
+done
+
+############################# 【step5:clear and quit 】###################
+echo closing apk
 kill -9 $emuid
-#xdotool search "5554" windowactivate --sync mousemove --sync 781 15 click 1 & closepid=$!;sleep 3s;kill -9 $closepid
 #timeout 2s xdotool search "5554" windowactivate --sync mousemove --sync 781 15 click 1 
+#xdotool search "5554" windowactivate --sync mousemove --sync 781 15 click 1 & closepid=$!;sleep 3;kill -9 $closepid
 
 	# save image
 	mkdir $WSPACE/image/$VCFNAME
@@ -182,8 +184,6 @@ kill -9 $emuid
 	cd $AVDPATH
 	rm -f 1.ini
 	rm -rf 1.avd
-
-	#android会在tmp下创建临时文件，每个218M，磁盘写满后无法继续创建新的模拟器
 	rm /tmp/android-bigbug/*
 
 echo ============ Ending program =============

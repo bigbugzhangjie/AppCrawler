@@ -1,10 +1,14 @@
 package jack.robot.android;
 
+import jack.utility.FileTools;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 public class VCardFileGenerator {
 	HashSet<Contact> contacts;
@@ -15,8 +19,8 @@ public class VCardFileGenerator {
 		int MaxNumber = 400; //每个vcf文件中最多的联系人数目；
 		VCardFileGenerator gen = new VCardFileGenerator();
 //		File in = new File("/home/bigbug/adt-workspace/data/phone-10k-congying.txt");
-		File in = new File("/home/bigbug/adt-workspace/data/zhangyun/寿险1.tsv");
-		String path = "/home/bigbug/adt-workspace/vcards/all";
+		File in = new File("/home/bigbug/adt-workspace/data/zhangyun/test-1"); //test400");  //寿险1.tsv");
+		String path = "/home/bigbug/adt-workspace/vcards/test"; // all  test
 		File out = new File(path);
 		if(args.length==2){
 			in = new File(args[0]);
@@ -31,8 +35,11 @@ public class VCardFileGenerator {
 				+ "\n\toutput file: "+out.toString()
 				);
 		
-		HashSet<String> phones = VCardFileGenerator.getColumnSet(in, 0, "\t",true); 
+//		HashSet<String> phones = VCardFileGenerator.getColumnSet(in, 0, "\t",true); 
 				
+		List<String> phones = FileTools.getColumnList(in, 0, "\t", true);
+		Collections.shuffle(phones);
+		
 		gen.contacts = new HashSet<Contact>();
 		for(String s :phones){
 			try{
