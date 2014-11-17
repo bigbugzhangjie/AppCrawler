@@ -1,6 +1,7 @@
 	
 【TODO】
-	1. 获得所有客户手机号
+	1. 获得所有“价值客户”手机号
+	2. 编写脚本，多台机器定期拷贝结果到： sinosig101/bigdata/share/appCrawler 目录
 	
 	
 【DONE】

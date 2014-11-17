@@ -1,11 +1,15 @@
 package jack.robot.android;
 
+import jack.utility.FileTools;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * 
@@ -86,6 +90,40 @@ public class Contact {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	/**
+	 * 读取标准格式的vcf文件，抽取出contact
+	 * @param vcf
+	 * @return
+	 * @throws IOException
+	 */
+	public static ArrayList<Contact> loadVCard(File vcf) throws IOException{
+		ArrayList<Contact> ret = new ArrayList<Contact>();
+		List<String> lines = FileTools.getLineList(vcf);
+		Contact con = new Contact();
+		for(String line : lines){
+			if(line.startsWith("BEGIN")){
+				con = new Contact();
+			}else if(line.startsWith("END")){
+				ret.add(con);
+			}else{
+				int idx = line.indexOf(":")+1;
+				String s = line.substring(idx);
+				if(line.startsWith("VERSION")){
+					con.setVersion(s);
+				}else if(line.startsWith("N")){
+					con.setName(s);
+				}else if(line.startsWith("FN")){
+					con.setFullname(s);
+				}else if(line.startsWith("TEL")||line.startsWith("CELL")||line.startsWith("VOICE")){
+					con.setCell(Long.parseLong(s));
+				}else if(line.startsWith("EMAIL")){
+					con.setEmail(s);
+				}
+			}
+		}
+		return ret;
 	}
 	
 	/**
@@ -172,15 +210,24 @@ public class Contact {
 		}
 	}
 
-	public static void main(String[] args) {
-		Contact c = new Contact(18901383841L);
-		System.out.println(c.toVCard());
+	public static void main(String[] args) throws IOException {
+//		Contact c = new Contact(18901383841L);
+//		System.out.println(c.toVCard());
+//		
+//		Contact d = new Contact("z127513@126.com");
+//		System.out.println(d.toVCard());
+//		
+//		Contact e = new Contact(18901383841L,"z127513@126.com");
+//		System.out.println(e.toVCard());
 		
-		Contact d = new Contact("z127513@126.com");
-		System.out.println(d.toVCard());
+		File vcf = new File("/home/bigbug/adt-workspace/vcards/miss/29.vcf");
+		ArrayList<Contact> l = loadVCard(vcf);
+		System.out.println(l.size());
+		for(int i=0;i<2;i++){
+			System.out.println(l.get(i));
+		}
 		
-		Contact e = new Contact(18901383841L,"z127513@126.com");
-		System.out.println(e.toVCard());
+		System.out.println("==========Finished!==========");
 
 	}
 

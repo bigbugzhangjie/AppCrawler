@@ -37,7 +37,7 @@
 		
 【详细步骤】：
 	0. 生成标准格式到VCard文件，并分片：
-		java VCardFileGenerator xxx/data/phone.txt /home/bigbug/adt-workspace/vcards
+		VCardFileGenerator.cells2vcf( xxx/data/phone.txt /home/bigbug/adt-workspace/vcards, 800)
 		（分片后的vcard文件放入待处理目录）
 	1. mksdcard: cmd进入tools目录,使用mksdcard: 
 		/tools>mksdcard -l sdcard 100M ~/sdcard.img 
@@ -76,6 +76,11 @@
 		3）截屏--保存--翻页--再截屏--...
 	7. 删除avd,截屏图片移动到目标文件夹，
 	8. 重复步骤3
+	
+	9. 检查image文件夹中的结果图片，不成功的删除，
+	10. 不成功的重新跑一遍
+		MissFinder：找到不成功的vcf，从done目录中剪切到miss目录中
+		VCardFileGenerator
 	
 【操作步骤】
 	1. VCardFileGenerator.java ，配置参数，生成.vcf文件

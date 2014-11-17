@@ -40,15 +40,12 @@ public class MatchRobot extends Robot{
 			System.out.println("");
 			File vcard = files[i]; //当前待处理的名单
 			
-			//如果爬虫帐号用完了，则休息几个小时；
+			// 现在帐号足够用了，不用sleep
+			//帐号用完一遍后，从头开始再用
 			if(accounts.size()<= accountIdx){
-				System.out.print("falling into sleep at: ");				
-				Date d = new Date();
-				System.out.println(d.toString());
-				int hour = d.getHours();
-				Thread.sleep((24-hour)*3600*1000);
-				accountIdx = 0; //休息完之后，第二天从头开始用帐号；
+				accountIdx = 0; 
 			}
+			
 			WeiboAccount account = this.accounts.get(accountIdx); 
 			
 			System.out.println("================== round "+i+" =================");
@@ -138,16 +135,22 @@ public class MatchRobot extends Robot{
 	}
 
 	public static void main(String[] args) throws Exception {
-		MatchRobot.debug = true;
+		MatchRobot.debug = false;
 		String user = "bigbug";
 		String machine = "sinosig100";
-		String accstr = "/home/"+user+"/adt-workspace/account/"+machine+".txt";
-		String dirstr = "/home/"+user+"/adt-workspace/vcards";
 		
+		//帐号名密码所在文件
+		String accstr = "/home/"+user+"/adt-workspace/account/"+machine+".txt";
+		//待爬取的手机号码vcf文件们所在的文件夹
+		String dirstr = "/home/"+user+"/adt-workspace/vcards/";
+		
+		//结果图片所在目录
 		File image = new File("/home/"+user+"/adt-workspace/image");
 		if(!image.exists() || !image.isDirectory()){
 			image.mkdir();
 		}
+		
+		//已处理完毕的vcf文件剪切到此目录
 		File done = new File(dirstr+File.separator+"done");
 		if(!done.exists() || !done.isDirectory()){
 			done.mkdir();
