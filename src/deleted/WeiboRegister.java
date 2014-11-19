@@ -1,4 +1,6 @@
-package jack.robot.android;
+package deleted;
+
+import jack.robot.android.Robot;
 
 public class WeiboRegister extends Robot{
 

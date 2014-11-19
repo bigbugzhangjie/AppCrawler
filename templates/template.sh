@@ -15,6 +15,8 @@ AVDPATH=$HOME/.android/avd
 	./mksdcard -l sdcard 100M $WSPACE/sdcard.img
 
 	# create AVD
+	rm -rf $AVDPATH/1.ini
+	rm -rf $AVDPATH/1.avd
 	cp -rf $TEMPLATE/* $AVDPATH/
 	# 不再重新创建AVD：  ./android create avd -n '1' -t 2 -c $WSPACE/sdcard.img -s HVGA -b armeabi-v7a ;sleep 1m
 
