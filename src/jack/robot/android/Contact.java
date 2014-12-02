@@ -181,6 +181,19 @@ public class Contact {
 	 * @throws IOException
 	 */
 	public static void toVCard(Collection<Contact> list,File dir,int num) throws IOException{
+		toVCard(list, dir,"", num);
+	}
+
+	/**
+	 * 将一组联系人导入到一个指定的目录，每超过num个联系人则新创建一个文件。
+	 * 文件扩展名推荐使用*.vcf
+	 * @param list
+	 * @param dir	vcf文件存放目录
+	 * @param profix	vcf文件名前缀
+	 * @param num	每个vcf文件存放的联系人最大数量。文件名从1开始，递增。
+	 * @throws IOException
+	 */
+	public static void toVCard(Collection<Contact> list,File dir,String profix,int num) throws IOException{
 		if(list==null || list.size()<=0){
 			return;
 		}
@@ -198,7 +211,7 @@ public class Contact {
 					w.close();
 				}
 				int Nth = (i/num) + 1;
-				w = new FileWriter(new File(dir.getPath()+File.separator+Nth+".vcf"));
+				w = new FileWriter(new File(dir.getPath()+File.separator+profix+"-"+Nth+".vcf"));
 			}
 			i++;
 			Contact c = it.next();

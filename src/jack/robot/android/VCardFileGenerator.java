@@ -17,8 +17,11 @@ public class VCardFileGenerator {
 	public static void main(String[] args) throws IOException {
 //		//读取手机号码列表，将其转换成vcf文件
 ////		File in = new File("/home/bigbug/adt-workspace/data/phone-10k-congying.txt");
-		File in = new File("/home/bigbug/adt-workspace/data/zhangyun/产险.tsv"); //test400");  //寿险1.tsv");
-		String path = "/home/bigbug/adt-workspace/vcards/产险"; // all  test
+		File in = new File("/home/bigbug/adt-workspace/data/zhangyun-valuable-20141126.tsv"); //test400");  //寿险1.tsv");
+		String path = "/home/bigbug/adt-workspace/vcards/理赔在保"; // all  test
+		String prefix = "highvalue"; // vcf文件名前缀
+		
+		
 		File out = new File(path);
 		int MaxNumber = 800; //每个vcf文件中最多的联系人数目；  400
 		if(args.length==2){
@@ -27,7 +30,11 @@ public class VCardFileGenerator {
 		}else{
 			System.err.println("Using default input/output files: \n");
 		}
-		cells2vcf(in,out,MaxNumber);
+		
+		if(!out.exists() || !out.isDirectory()){
+			out.mkdir();
+		}
+		cells2vcf(in,out,prefix,MaxNumber);
 		
 		
 //		//重新调整每个vcf文件中的联系人数目
@@ -59,10 +66,11 @@ public class VCardFileGenerator {
  * 读取手机号码列表，将其转换成vcf文件
  * @param cellFile	每行一个手机号
  * @param outDir	目标vcf所在目录
+ * @param profix	目标vcf的文件名前缀
  * @param max	每个vcf文件中包含的contact最大数目
  * @throws IOException
  */
-	public static void cells2vcf(File cellFile,File outDir,int max) throws IOException {
+	public static void cells2vcf(File cellFile,File outDir,String profix,int max) throws IOException {
 		VCardFileGenerator gen = new VCardFileGenerator();
 
 		if(!outDir.exists() || !outDir.isDirectory()){
@@ -95,7 +103,7 @@ public class VCardFileGenerator {
 		}
 		
 		// 分为多个文件；
-		Contact.toVCard(gen.contacts, outDir,max);
+		Contact.toVCard(gen.contacts, outDir,profix,max);
 		
 //		// 全部写入一个文件；
 //		Contact.toVCard(gen.contacts, new File(outDir.getAbsolutePath()+File.separator+"all.vcf"));
