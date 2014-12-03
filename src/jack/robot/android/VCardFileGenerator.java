@@ -1,7 +1,5 @@
 package jack.robot.android;
 
-import jack.utility.FileTools;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,6 +8,20 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class VCardFileGenerator {
+	// 为了避免重复爬取电话号码，需要保证将要处理的手机号码没有被处理过
+	//已处理的vcf文件所在的目录
+	public static String CRAWLED_DIR = "";
+	public static HashSet<Long> CRAWLED_CELLS = new HashSet<Long>();
+	//从目录中读取手机号码
+	static {
+		try{
+			Contact.loadCellsFromDir(new File(CRAWLED_DIR));
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	
 	HashSet<Contact> contacts;
 	File out;
 	int max=Integer.MAX_VALUE;
@@ -20,6 +32,7 @@ public class VCardFileGenerator {
 		File in = new File("/home/bigbug/adt-workspace/data/zhangyun-valuable-20141126.tsv"); //test400");  //寿险1.tsv");
 		String path = "/home/bigbug/adt-workspace/vcards/理赔在保"; // all  test
 		String prefix = "highvalue"; // vcf文件名前缀
+		CRAWLED_DIR = "/home/bigbug/adt-workspace";
 		
 		
 		File out = new File(path);
@@ -34,6 +47,14 @@ public class VCardFileGenerator {
 		if(!out.exists() || !out.isDirectory()){
 			out.mkdir();
 		}
+		
+
+			try{
+				Contact.loadCellsFromDir(new File(CRAWLED_DIR));
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+
 		cells2vcf(in,out,prefix,MaxNumber);
 		
 		
@@ -90,6 +111,9 @@ public class VCardFileGenerator {
 		for(String s :phones){
 			try{
 				long cell = Long.parseLong(s);
+				if(CRAWLED_CELLS.contains(cell)){
+					continue;
+				}
 				Contact c = new Contact(cell);
 				gen.contacts.add(c);
 			}catch(Exception e){

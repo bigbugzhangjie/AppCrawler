@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -93,39 +94,52 @@ public class Contact {
 	}
 	
 	/**
-	 * 读取标准格式的vcf文件，抽取出contact
-	 * @param vcf
+	 * 如果输入一个vcf文件，则抽取出contact；
+	 * 如果输入一个目录，则递归找到此目录及其子目录下所有的.vcf文件，并抽取出contact；
+	 * @param vcf	vcf文件，或者一个目录
 	 * @return
 	 * @throws IOException
 	 */
-	public static ArrayList<Contact> loadVCard(File vcf) throws IOException{
+	public static ArrayList<Contact> loadVCard(File vcf) throws IOException {
 		ArrayList<Contact> ret = new ArrayList<Contact>();
-		List<String> lines = FileTools.getLineList(vcf);
-		Contact con = new Contact();
-		for(String line : lines){
-			if(line.startsWith("BEGIN")){
-				con = new Contact();
-			}else if(line.startsWith("END")){
-				ret.add(con);
-			}else{
-				int idx = line.indexOf(":")+1;
-				String s = line.substring(idx);
-				if(line.startsWith("VERSION")){
-					con.setVersion(s);
-				}else if(line.startsWith("N")){
-					con.setName(s);
-				}else if(line.startsWith("FN")){
-					con.setFullname(s);
-				}else if(line.startsWith("TEL")||line.startsWith("CELL")||line.startsWith("VOICE")){
-					con.setCell(Long.parseLong(s));
-				}else if(line.startsWith("EMAIL")){
-					con.setEmail(s);
+		if(!vcf.exists()){
+			return ret;
+		}else if (vcf.isFile()) {
+			List<String> lines = FileTools.getLineList(vcf);
+			Contact con = new Contact();
+			for (String line : lines) {
+				if (line.startsWith("BEGIN")) {
+					con = new Contact();
+				} else if (line.startsWith("END")) {
+					ret.add(con);
+				} else {
+					int idx = line.indexOf(":") + 1;
+					String s = line.substring(idx);
+					if (line.startsWith("VERSION")) {
+						con.setVersion(s);
+					} else if (line.startsWith("N")) {
+						con.setName(s);
+					} else if (line.startsWith("FN")) {
+						con.setFullname(s);
+					} else if (line.startsWith("TEL")
+							|| line.startsWith("CELL")
+							|| line.startsWith("VOICE")) {
+						con.setCell(Long.parseLong(s));
+					} else if (line.startsWith("EMAIL")) {
+						con.setEmail(s);
+					}
 				}
 			}
+		} else if (vcf.isDirectory()) {
+			List<File> fs = FileTools.filter(vcf, ".vcf", 2, true);
+			for(File f : fs){
+				ret.addAll(loadVCard(f));
+			}
 		}
+		System.out.println("Loaded "+ret.size()+"contacts from "+((vcf.isFile())?"file":"directory")+vcf.getName());
 		return ret;
 	}
-	
+
 	/**
 	 * 将此Contact对象转换为VCard格式的字符串
 	 * @return
@@ -223,6 +237,22 @@ public class Contact {
 		}
 	}
 
+	/**
+	 * 递归的从目录中查找所有*.vcf文件，从中提取手机号
+	 * @param dir
+	 * @return
+	 * @throws IOException
+	 */
+	public static HashSet<Long> loadCellsFromDir(File dir) throws IOException{
+		ArrayList<Contact> cs = loadVCard(dir);
+		HashSet<Long> ret = new HashSet<Long>();
+		for(Contact c : cs){
+			ret.add(c.getCell());			
+		}
+		System.out.println("Got "+ret.size()+" cellphones");
+		return ret;
+	}
+	
 	public static void main(String[] args) throws IOException {
 //		Contact c = new Contact(18901383841L);
 //		System.out.println(c.toVCard());
@@ -232,13 +262,19 @@ public class Contact {
 //		
 //		Contact e = new Contact(18901383841L,"z127513@126.com");
 //		System.out.println(e.toVCard());
+
 		
-		File vcf = new File("/home/bigbug/adt-workspace/vcards/miss/29.vcf");
-		ArrayList<Contact> l = loadVCard(vcf);
-		System.out.println(l.size());
-		for(int i=0;i<2;i++){
-			System.out.println(l.get(i));
-		}
+		// 测试从vcf文件中读取Contact
+//		File vcf = new File("/home/bigbug/adt-workspace/vcards/miss/29.vcf");
+//		ArrayList<Contact> l = loadVCard(vcf);
+//		System.out.println(l.size());
+//		for(int i=0;i<2;i++){
+//			System.out.println(l.get(i));
+//		}
+
+		// 测试从目录中读取Contact，然后统计有多少个不重复的手机号
+		File vcf = new File("/home/bigbug/adt-workspace/result");
+		loadCellsFromDir(vcf);
 		
 		System.out.println("==========Finished!==========");
 

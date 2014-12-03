@@ -9,11 +9,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 public class MatchRobot extends Robot{
 	public static File SCRIPT = new File("templates/template.sh"); //shell 脚本文件
 	public static boolean debug = true; //是否是debug阶段
+
 	
 	File[] files;//需要处理的vcard文件
 		
