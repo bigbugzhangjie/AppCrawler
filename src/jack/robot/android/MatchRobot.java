@@ -141,6 +141,13 @@ public class MatchRobot extends Robot{
 		String user = "bigbug";
 		String machine = "sinosig100";
 		
+		if(args.length>0){
+			machine = args[0];
+		}
+		if(args.length>1){
+			user = args[1];
+		}
+		
 		//帐号名密码所在文件
 		String accstr = "/home/"+user+"/adt-workspace/account/"+machine+".txt";
 		//待爬取的手机号码vcf文件们所在的文件夹
