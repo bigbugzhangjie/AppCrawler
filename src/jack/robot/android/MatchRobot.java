@@ -65,9 +65,13 @@ public class MatchRobot extends Robot{
 			
 			// 善后工作
 			round++;
-			if(round%3==0){  //如果遇到休息，第二天重新开始爬，这样可能会浪费1-2轮。
-				accountIdx++;	
-			}
+			
+			//每爬三轮换一个帐号
+//			if(round%3==0){  //如果遇到休息，第二天重新开始爬，这样可能会浪费1-2轮。
+//				accountIdx++;	
+//			}			
+			accountIdx++; //每爬一轮换一个帐号
+			
 			timer.printAll();
 			
 //			//为了debug，只跑两轮
