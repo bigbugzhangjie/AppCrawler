@@ -1,5 +1,6 @@
 package jack.robot.android;
 
+import jack.utility.Config;
 import jack.utility.FileTools;
 import jack.utility.Timer;
 
@@ -8,8 +9,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 public class MatchRobot extends Robot{
@@ -138,29 +137,32 @@ public class MatchRobot extends Robot{
 
 	public static void main(String[] args) throws Exception {
 		MatchRobot.debug = false;
-		String user = "bigbug";
-		String machine = "sinosig100";
 		
+		String cf="config/default.config";
 		if(args.length>0){
-			machine = args[0];
-		}
-		if(args.length>1){
-			user = args[1];
-		}
+			cf = args[0];
+		}	
+		Config conf = new Config(new File(cf));
+		
+		System.out.print("Using config file: "+cf);
 		
 		//帐号名密码所在文件
-		String accstr = "/home/"+user+"/adt-workspace/account/"+machine+".txt";
+		String accstr = conf.getValue("accounts");
 		//待爬取的手机号码vcf文件们所在的文件夹
-		String dirstr = "/home/"+user+"/adt-workspace/vcards/";
+		String dirstr = conf.getValue("vcardsDir");
 		
 		//结果图片所在目录
-		File image = new File("/home/"+user+"/adt-workspace/image");
+		File image = new File(conf.getValue("imageDir"));
 		if(!image.exists() || !image.isDirectory()){
 			image.mkdir();
 		}
 		
 		//已处理完毕的vcf文件剪切到此目录
-		File done = new File(dirstr+File.separator+"done");
+		String donedir = conf.getValue("vcardsDone");
+		if(donedir==null){
+			donedir = dirstr+File.separator+"done";
+		}
+		File done = new File(donedir);
 		if(!done.exists() || !done.isDirectory()){
 			done.mkdir();
 		}
