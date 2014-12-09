@@ -2,7 +2,7 @@
 【TODO】
 	* 编写脚本，多台机器定期拷贝结果到： sinosig101/bigdata/share/appCrawler 目录
 	* 与诗阳商量，将出错的爬取结果（图片/全空）找到对应的vcf，定期整理后再重新跑。
-	* 调用VCardFileGenerator前，扫描所有已经处理过的vcf文件中的手机号，避免重复爬取
+
 	
 【DONE】
 	* 手机联系人上传到微博app的最大数目
@@ -32,3 +32,4 @@
 	* 测试：一份全空匹配的名单，换一台机器，换一个帐号，再跑一遍； 
 		能匹配成功，不再全空。
 	* 整个工程打成runnable jar
+	* 调用VCardFileGenerator前，扫描所有已经处理过的vcf文件中的手机号，避免重复爬取

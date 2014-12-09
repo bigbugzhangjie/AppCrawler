@@ -32,7 +32,9 @@
 	data：原始数据
 	vcard：原始数据转换格式后的vcf格式
 	log：记录中间状态的临时文档,
-	reference：参考资料l
+	reference：参考资料
+	config: 程序运行需要的配置文件
+	template：运行android虚拟机需要的模板虚拟机
 	
 		
 【详细步骤】：
@@ -83,7 +85,8 @@
 		VCardFileGenerator
 	
 【操作步骤】
-	1. VCardFileGenerator.java ，配置参数，生成.vcf文件
+	0. 配置参数:  config/*.config
+	1. VCardFileGenerator.java ，生成.vcf文件
 	2. 将需要处理的文件拷贝到/home/bigbug/adt-workspace/vcards/ 文件夹下。
 		注意，分布式爬取时需要为每台机器分配不同的vcf任务，避免重复爬取
 	3. 配置accounts.this 文件，第一列为帐号的用户名，第二列为密码
