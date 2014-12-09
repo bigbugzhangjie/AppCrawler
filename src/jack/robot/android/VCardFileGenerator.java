@@ -1,5 +1,7 @@
 package jack.robot.android;
 
+import jack.utility.Config;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -27,18 +29,21 @@ public class VCardFileGenerator {
 	int max=Integer.MAX_VALUE;
 
 	public static void main(String[] args) throws IOException {
+		String cf = "config/vcard.config";
+		Config conf = new Config(new File(cf));
 //		//读取手机号码列表，将其转换成vcf文件
-////		File in = new File("/home/bigbug/adt-workspace/data/phone-10k-congying.txt");
-		File in = new File("/home/bigbug/adt-workspace/data/zhangyun-valuable-20141126.tsv"); //test400");  //寿险1.tsv");
-		String path = "/home/bigbug/adt-workspace/vcards/理赔在保"; // all  test
-		String prefix = "highvalue"; // vcf文件名前缀
-		CRAWLED_DIR = "/home/bigbug/adt-workspace";
+		File cellfile = new File(conf.getValue("cellfile"));//"/home/bigbug/adt-workspace/data/zhangyun-valuable-20141126.tsv"); //test400");  //寿险1.tsv");
+		String desPath = conf.getValue("desPath"); // "/home/bigbug/adt-workspace/vcards/理赔在保"; // all  test
+		String prefix = conf.getValue("prefix");	//"highvalue"; // vcf文件名前缀
+		
+		//读取此目录及其子目录中所有的*.vcf文件，抽取电话号码，去除重复的电话号码，避免重复爬取
+		CRAWLED_DIR = conf.getValue("crawledDir");	//"/home/bigbug/adt-workspace";
 		
 		
-		File out = new File(path);
+		File out = new File(desPath);
 		int MaxNumber = 800; //每个vcf文件中最多的联系人数目；  400
 		if(args.length==2){
-			in = new File(args[0]);
+			cellfile = new File(args[0]);
 			out= new File(args[1]);
 		}else{
 			System.err.println("Using default input/output files: \n");
@@ -49,13 +54,13 @@ public class VCardFileGenerator {
 		}
 		
 
-			try{
-				Contact.loadCellsFromDir(new File(CRAWLED_DIR));
-			}catch(IOException e){
-				e.printStackTrace();
-			}
+		try {
+			Contact.loadCellsFromDir(new File(CRAWLED_DIR));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-		cells2vcf(in,out,prefix,MaxNumber);
+		cells2vcf(cellfile,out,prefix,MaxNumber);
 		
 		
 //		//重新调整每个vcf文件中的联系人数目

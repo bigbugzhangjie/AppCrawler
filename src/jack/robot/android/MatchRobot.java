@@ -138,7 +138,7 @@ public class MatchRobot extends Robot{
 	public static void main(String[] args) throws Exception {
 		MatchRobot.debug = false;
 		
-		String cf="config/default.config";
+		String cf="config/crawl.config";
 		if(args.length>0){
 			cf = args[0];
 		}	
