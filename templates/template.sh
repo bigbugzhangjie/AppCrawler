@@ -1,5 +1,5 @@
 ### define VCFFILE VCFNAME ###
-SDK=$HOME/local/adt-bundle-linux-x86_64-20140702/sdk
+SDK=/bigdata/local/adt-bundle-linux-x86_64-20140702/sdk
 WSPACE=$HOME/adt-workspace
 TEMPLATE=$WSPACE/template
 AVDPATH=$HOME/.android/avd
@@ -65,8 +65,8 @@ AVDPATH=$HOME/.android/avd
 	xdotool search "5554" windowactivate --sync  mousemove --sync 192 363 click 1
 
 	# cost many seconds
-	echo "waiting to import. sleep 9m" 
-	sleep 9m
+	echo "waiting to import. sleep 17m" 
+	sleep 17m
 
 	#502,268	模拟键盘的HOME钮
 	echo "click HOME button" 
@@ -146,9 +146,9 @@ AVDPATH=$HOME/.android/avd
 	xdotool search "5554" windowactivate --sync mousemove --sync 180 152 click 1
 	sleep 15s
 
-	echo "enable contact matching. sleep 5m"
+	echo "enable contact matching. sleep 13m"
 	xdotool search "5554" windowactivate --sync mousemove --sync 185 496 click 1
-	sleep 5m
+	sleep 13m
 
 	################################### 【step4:printscreeen and save image 】#####
 for j in {1..9}

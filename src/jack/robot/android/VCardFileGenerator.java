@@ -1,6 +1,6 @@
 package jack.robot.android;
 
-import jack.utility.Config;
+import jack.utility.FileTools;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,48 +29,46 @@ public class VCardFileGenerator {
 	int max=Integer.MAX_VALUE;
 
 	public static void main(String[] args) throws IOException {
-		String cf = "config/vcard.config";
-		Config conf = new Config(new File(cf));
-//		//读取手机号码列表，将其转换成vcf文件
-		File cellfile = new File(conf.getValue("cellfile"));//"/home/bigbug/adt-workspace/data/zhangyun-valuable-20141126.tsv"); //test400");  //寿险1.tsv");
-		String desPath = conf.getValue("desPath"); // "/home/bigbug/adt-workspace/vcards/理赔在保"; // all  test
-		String prefix = conf.getValue("prefix");	//"highvalue"; // vcf文件名前缀
-		
-		//读取此目录及其子目录中所有的*.vcf文件，抽取电话号码，去除重复的电话号码，避免重复爬取
-		CRAWLED_DIR = conf.getValue("crawledDir");	//"/home/bigbug/adt-workspace";
-		
-		
-		File out = new File(desPath);
-		int MaxNumber = 800; //每个vcf文件中最多的联系人数目；  400
-		if(args.length==2){
-			cellfile = new File(args[0]);
-			out= new File(args[1]);
-		}else{
-			System.err.println("Using default input/output files: \n");
-		}
-		
-		if(!out.exists() || !out.isDirectory()){
-			out.mkdir();
-		}
-		
-
-		try {
-			Contact.loadCellsFromDir(new File(CRAWLED_DIR));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		cells2vcf(cellfile,out,prefix,MaxNumber);
+//		String cf = "config/vcard.config";
+//		Config conf = new Config(new File(cf));
+////		//读取手机号码列表，将其转换成vcf文件
+//		File cellfile = new File(conf.getValue("cellfile"));//"/home/bigbug/adt-workspace/data/zhangyun-valuable-20141126.tsv"); //test400");  //寿险1.tsv");
+//		String desPath = conf.getValue("desPath"); // "/home/bigbug/adt-workspace/vcards/理赔在保"; // all  test
+//		String prefix = conf.getValue("prefix");	//"highvalue"; // vcf文件名前缀
+//		
+//		//读取此目录及其子目录中所有的*.vcf文件，抽取电话号码，去除重复的电话号码，避免重复爬取
+//		CRAWLED_DIR = conf.getValue("crawledDir");	//"/home/bigbug/adt-workspace";
+//				
+//		File out = new File(desPath);
+//		int MaxNumber = 800; //每个vcf文件中最多的联系人数目；  400
+//		if(args.length==2){
+//			cellfile = new File(args[0]);
+//			out= new File(args[1]);
+//		}else{
+//			System.err.println("Using default input/output files: \n");
+//		}
+//		
+//		if(!out.exists() || !out.isDirectory()){
+//			out.mkdir();
+//		}		
+//
+//		try {
+//			Contact.loadCellsFromDir(new File(CRAWLED_DIR));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		cells2vcf(cellfile,out,prefix,MaxNumber);
 		
 		
-//		//重新调整每个vcf文件中的联系人数目
-//		//输入：一组vcf文件，按照指定的最大数目，
-//		//输出：重新生成一组vcf文件
-//		//刚开始的时候，每个vcf中分配400个手机号。后来将没有跑完的vcf重新合并，改为每个vcf分配800个手机号；
-//		File inDir = new File("/home/bigbug/adt-workspace/result/103/vcards/");
-//		File outDir = new File("/home/bigbug/adt-workspace/result/103/vcards/800perVcf");
-//		int MaxNumber = 800;		
-//		rewrite(FileTools.filter(inDir, "vcf", 2),outDir,MaxNumber);
+		//重新调整每个vcf文件中的联系人数目
+		//输入：一组vcf文件，按照指定的最大数目，
+		//输出：重新生成一组vcf文件
+		//刚开始的时候，每个vcf中分配400个手机号。后来将没有跑完的vcf重新合并，改为每个vcf分配800个手机号；
+		File inDir = new File("/home/bigbug/adt-workspace/vcards/dispatch/");
+		File outDir = new File("/home/bigbug/adt-workspace/vcards/dispatch/"
+				+ "1600/");
+		int MaxNumber = 1600;		 // 800
+		rewrite(FileTools.filter(inDir, "vcf", 2),outDir,MaxNumber);
 		
 		System.out.println("=========Finished!========");
 		
@@ -85,7 +83,7 @@ public class VCardFileGenerator {
 		for(File f : vcfs){
 			list.addAll(Contact.loadVCard(f));
 		}
-		Contact.toVCard(list, outDir,max);
+		Contact.toVCard(list, outDir,"",max);
 	}
 	
 /**
