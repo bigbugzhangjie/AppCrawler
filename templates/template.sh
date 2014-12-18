@@ -65,8 +65,8 @@ AVDPATH=$HOME/.android/avd
 	xdotool search "5554" windowactivate --sync  mousemove --sync 192 363 click 1
 
 	# cost many seconds
-	echo "waiting to import. sleep 17m" 
-	sleep 17m
+	echo "waiting to import. sleep 15m" 
+	sleep 15m
 
 	#502,268	模拟键盘的HOME钮
 	echo "click HOME button" 
@@ -146,9 +146,9 @@ AVDPATH=$HOME/.android/avd
 	xdotool search "5554" windowactivate --sync mousemove --sync 180 152 click 1
 	sleep 15s
 
-	echo "enable contact matching. sleep 13m"
+	echo "enable contact matching. sleep 9m"
 	xdotool search "5554" windowactivate --sync mousemove --sync 185 496 click 1
-	sleep 13m
+	sleep 9m
 
 	################################### 【step4:printscreeen and save image 】#####
 for j in {1..9}
