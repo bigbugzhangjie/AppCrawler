@@ -22,7 +22,9 @@ AVDPATH=$HOME/.android/avd
 
 	# starting emulator 【模拟器到名字叫“1”】
 	echo "starting AVD. sleep 3m"
-	$SDK/tools/emulator @1 & emuid=$!
+#	$SDK/tools/emulator @1 & emuid=$!  #不通过http代理上网
+#	$SDK/tools/emulator -http-proxy $PROXY @1 & emuid=$!  # 为了防止被封IP，让模拟器使用http代理上网
+###start emulator###
 	sleep 3m
 
 	# import vcards
@@ -34,8 +36,8 @@ AVDPATH=$HOME/.android/avd
 	# install apk
 	echo "installing weibo apk. sleep 10s"
 	./adb install $WSPACE/com.sina.weibo*.com.apk
-	sleep 10s
-	# 这2m貌似是可以省的。因为接下来是导入sdcard，可以尝试并行处理。
+	sleep 5s
+
 
 
 	############################### 【step2:import Contact from sdcard】#############
@@ -124,6 +126,9 @@ AVDPATH=$HOME/.android/avd
 	sleep 35s
 
 	echo "update later. sleep 20s"
+	xdotool search "5554" windowactivate --sync mousemove --sync 124 364 click 1
+	sleep 1s
+#	有时候，弹出的这个对话框中文字较多，出现换行，会多出一行，导致button会下移。
 	xdotool search "5554" windowactivate --sync mousemove --sync 124 391 click 1
 	sleep 20s
 

@@ -86,7 +86,11 @@ public class MatchRobot extends Robot{
 	}
 	
 	/**
-	 * 根据SCRIPT模板脚本，生成新的脚本文件；
+	 * 根据SCRIPT模板脚本，生成新的脚本文件。主要工作包括：
+	 * 1）点击模拟键盘输入微博用户名/密码；
+	 * 2）设置android模拟器使用的HTTP代理；
+	 * 3）修改待处理的vcf文件；
+	 * 
 	 * @param uname	 微博用户名
 	 * @param pwd	微博用户密码
 	 * @param vcf	vcard文件
@@ -109,6 +113,13 @@ public class MatchRobot extends Robot{
 				line = typeusername;
 			}else if(line.equals("###type passwd here###")){
 				line = typepwd;
+			}else if(line.equals("###start emulator###")){
+				String proxy = HttpProxy.getOne();
+				if(proxy.length()>0){
+					line = "$SDK/tools/emulator -http-proxy "+proxy+" @1 & emuid=$! ";
+				}else{
+					line = "$SDK/tools/emulator @1 & emuid=$! ";
+				}				
 			}
 			writer.write(line+"\n");
 		}
