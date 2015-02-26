@@ -2,6 +2,8 @@ package jack.robot.android;
 
 import jack.utility.Config;
 import jack.utility.FileTools;
+import jack.utility.RegexTools;
+import jack.utility.StringTools;
 import jack.utility.Timer;
 
 import java.io.BufferedReader;
@@ -115,11 +117,17 @@ public class MatchRobot extends Robot{
 				line = typepwd;
 			}else if(line.equals("###start emulator###")){
 				String proxy = HttpProxy.getOne();
-				if(proxy.length()>0){
+				if(proxy.contains("http://")){
+					proxy = proxy.replace("http://", "");
+					proxy = proxy.replace("https://", "");
+				}
+				if(proxy.length()>0 && RegexTools.validIP(proxy)){
+					System.out.println("Using proxy: "+proxy);
 					line = "$SDK/tools/emulator -http-proxy "+proxy+" @1 & emuid=$! ";
 				}else{
+					proxy = "";
 					line = "$SDK/tools/emulator @1 & emuid=$! ";
-				}				
+				}	
 			}
 			writer.write(line+"\n");
 		}

@@ -117,9 +117,9 @@ AVDPATH=$HOME/.android/avd
 
 ###type passwd here###
 
-	echo "click Login button. sleep 30s"
+	echo "click Login button. sleep 45s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 368 click 1
-	sleep 30s
+	sleep 45s
 
 	echo "click 开始我的旅程. sleep 35s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 454 click 1
