@@ -92,7 +92,6 @@ public class MatchRobot extends Robot{
 	 * 1）点击模拟键盘输入微博用户名/密码；
 	 * 2）设置android模拟器使用的HTTP代理；
 	 * 3）修改待处理的vcf文件；
-	 * 
 	 * @param uname	 微博用户名
 	 * @param pwd	微博用户密码
 	 * @param vcf	vcard文件
@@ -117,24 +116,31 @@ public class MatchRobot extends Robot{
 				line = typepwd;
 			}else if(line.equals("###start emulator###")){
 				String proxy = HttpProxy.getOne();
+				boolean valid = false;   // proxy的格式是否有效
 				if(proxy.contains("http://")){
 					proxy = proxy.replace("http://", "");
 					proxy = proxy.replace("https://", "");
 				}
-				if(proxy.length()>0 && RegexTools.validIP(proxy)){
+				if(proxy.length()>0 ){
+					String[] address = proxy.split(":");
+					if( RegexTools.validIP(address[0])){
+						valid = true;
+					}
+				}
+					
+				if(valid){
 					System.out.println("Using proxy: "+proxy);
 					line = "$SDK/tools/emulator -http-proxy "+proxy+" @1 & emuid=$! ";
 				}else{
 					proxy = "";
+					System.out.println("Not using proxy. ");
 					line = "$SDK/tools/emulator @1 & emuid=$! ";
 				}	
 			}
 			writer.write(line+"\n");
 		}
-		writer.close();
-	
-	}
-	
+		writer.close();	
+	}	
 	
 	private void callShell(File f) throws InterruptedException{
 		try {

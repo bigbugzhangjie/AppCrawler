@@ -1,11 +1,12 @@
 package jack.robot.android;
 
+import jack.utility.FileTools;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-
-import jack.utility.FileTools;;
 
 public abstract class Robot {
 	ArrayList<WeiboAccount> accounts ;//key：用户名， value:密码
@@ -40,6 +41,7 @@ public abstract class Robot {
 				accounts.add(new WeiboAccount(user, pwd));
 			}
 		}
+		Collections.shuffle(accounts); 
 	}
 	
 	public abstract void run() throws InterruptedException, IOException;
