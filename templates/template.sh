@@ -117,9 +117,9 @@ AVDPATH=$HOME/.android/avd
 
 ###type passwd here###
 
-	echo "click Login button. sleep 45s"
+	echo "click Login button. sleep 90s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 368 click 1
-	sleep 45s
+	sleep 90s
 
 	echo "click 开始我的旅程. sleep 35s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 189 454 click 1
@@ -132,9 +132,9 @@ AVDPATH=$HOME/.android/avd
 	xdotool search "5554" windowactivate --sync mousemove --sync 124 391 click 1
 	sleep 20s
 
-	echo "点击左上角的[添加好友]图标. sleep 30s"
+	echo "点击左上角的[添加好友]图标. sleep 90s"
 	xdotool search "5554" windowactivate --sync mousemove --sync 56 100 click 1
-	sleep 30s
+	sleep 90s
 
 	echo "向下滚动17下，寻找[通讯录好友关注]. sleep 5s"
 #	xdotool search "5554" windowactivate --sync mousemove --sync 264 97 click 1
@@ -150,9 +150,9 @@ AVDPATH=$HOME/.android/avd
 #	xdotool search "5554" windowactivate --sync mousemove --sync 180 152 click 1
 #	sleep 15s
 
-	echo "enable contact matching. sleep 9m"
+	echo "enable contact matching. sleep 12m"
 	xdotool search "5554" windowactivate --sync mousemove --sync 185 496 click 1
-	sleep 9m
+	sleep 12m
 
 	################################### 【step4:printscreeen and save image 】#####
 for j in {1..9}

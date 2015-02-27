@@ -3,6 +3,7 @@ package jack.robot.android;
 import jack.utility.FileTools;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,9 +22,14 @@ public abstract class Robot {
 	/**
 	 * 
 	 * @param accountfile	第一列为用户名，第二列为密码
+	 * @throws FileNotFoundException 
 	 */
-	public Robot(File accountfile){
-		init(accountfile);
+	public Robot(File accountfile) throws FileNotFoundException{
+		if(accountfile.exists()&&accountfile.isFile()){
+			init(accountfile);
+		}else{
+			throw new FileNotFoundException("Can NOT found file: "+accountfile.getName());
+		}
 	}
 	private void init(File f){
 		accounts = new ArrayList<WeiboAccount>();

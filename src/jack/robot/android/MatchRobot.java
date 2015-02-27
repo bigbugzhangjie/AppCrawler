@@ -8,6 +8,7 @@ import jack.utility.Timer;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,10 +25,15 @@ public class MatchRobot extends Robot{
 	 * 
 	 * @param account	微博帐号所在文件。第一列用户名，第二列密码
 	 * @param dir	需要处理的vcard文件所在的目录
+	 * @throws FileNotFoundException 
 	 */
-	public MatchRobot(File account, File dir){
+	public MatchRobot(File account, File dir) throws FileNotFoundException{
 		super(account);
-		files = FileTools.filter(dir, ".vcf", 2);
+		if(!dir.exists()){
+			throw new FileNotFoundException();
+		}else{
+			files = FileTools.filter(dir, ".vcf", 2);
+		}
 	}
 	
 	/**
@@ -42,6 +48,13 @@ public class MatchRobot extends Robot{
 		for(int i=0;i<files.length;i++){
 			System.out.println("");
 			File vcard = files[i]; //当前待处理的名单
+			String vcfname = vcard.getName();
+			String vcfindex = "";
+			if(vcfname.contains("-")){
+				vcfindex = vcfname.substring(vcfname.lastIndexOf("-")+1);
+			}else{
+				vcfindex = vcfname;
+			}
 			
 			// 现在帐号足够用了，不用sleep
 			//帐号用完一遍后，从头开始再用
@@ -55,7 +68,7 @@ public class MatchRobot extends Robot{
 			System.out.println("vcardfile:"+vcard+"\taccount:"+accountIdx+"\t"+account.toString());
 			Timer timer = new Timer();
 			
-			File shell = new File(SCRIPT.getAbsoluteFile().getParent()+File.separator+"temp-f"+i+"-u"+accountIdx+".sh");
+			File shell = new File(SCRIPT.getAbsoluteFile().getParent()+File.separator+"temp_f"+vcfindex+"_u"+account.getUsername()+"_r"+i+"-"+accountIdx+".sh");
 			generateScript(account.getUsername(),account.getPasswd(),vcard, shell);
 //			timer.add("generate script"); //cost: 0h-0m-0s
 			callShell(shell);
@@ -165,7 +178,7 @@ public class MatchRobot extends Robot{
 	}
 
 	public static void main(String[] args) throws Exception {
-		MatchRobot.debug = false;
+		MatchRobot.debug = true;
 		
 		String cf="config/crawl.config";
 		if(args.length>0){
