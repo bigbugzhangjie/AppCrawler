@@ -48,7 +48,7 @@ public class MatchRobot extends Robot{
 		for(int i=0;i<files.length;i++){
 			System.out.println("");
 			File vcard = files[i]; //当前待处理的名单
-			String vcfname = vcard.getName();
+			String vcfname = vcard.getName().replace(".vcf", "");
 			String vcfindex = "";
 			if(vcfname.contains("-")){
 				vcfindex = vcfname.substring(vcfname.lastIndexOf("-")+1);

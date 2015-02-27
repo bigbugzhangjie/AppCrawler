@@ -28,7 +28,7 @@ public abstract class Robot {
 		if(accountfile.exists()&&accountfile.isFile()){
 			init(accountfile);
 		}else{
-			throw new FileNotFoundException("Can NOT found file: "+accountfile.getName());
+			throw new FileNotFoundException("Can NOT found file: "+accountfile.toString());
 		}
 	}
 	private void init(File f){
