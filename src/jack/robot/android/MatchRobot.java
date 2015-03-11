@@ -52,6 +52,8 @@ public class MatchRobot extends Robot{
 			String vcfindex = "";
 			if(vcfname.contains("-")){
 				vcfindex = vcfname.substring(vcfname.lastIndexOf("-")+1);
+			}else if(vcfname.contains("_")){
+				vcfindex = vcfname.substring(vcfname.lastIndexOf("_")+1);
 			}else{
 				vcfindex = vcfname;
 			}
@@ -136,7 +138,7 @@ public class MatchRobot extends Robot{
 				}
 				if(proxy.length()>0 ){
 					String[] address = proxy.split(":");
-					if( RegexTools.validIP(address[0])){
+					if( RegexTools.isValidIP(address[0])){
 						valid = true;
 					}
 				}
